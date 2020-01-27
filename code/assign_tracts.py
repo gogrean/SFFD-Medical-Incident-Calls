@@ -20,7 +20,7 @@ class Tracts:
                                 usecols=['GEOID10', 'the_geom', 'ALAND10',
                                          'AWATER10', 'NAMELSAD10'])
         tracts_df['GEOID10'] = tracts_df['GEOID10'].astype('str')
-        self.tracts_df = tracts_df
+        self.df = tracts_df
 
     def _convert_boundary_to_shapely_polygon(self):
         """
@@ -34,14 +34,14 @@ class Tracts:
         """
         start, end = 'MULTIPOLYGON (((', ')))'
 
-        for i, tract in enumerate(self.tracts_df['the_geom']):
+        for i, tract in enumerate(self.df['the_geom']):
             tract_poly_str = tract[len(start):-len(end)]
             tract_poly_arr = [[float(x.split()[0]), float(x.split()[1])]
                                         for x in tract_poly_str.split(',')]
             tract_poly = Polygon(tract_poly_arr)
-            self.tracts_df.loc[i, 'Polygon'] = tract_poly
+            self.df.loc[i, 'Polygon'] = tract_poly
 
-        self.tracts_df.drop(labels='the_geom', axis=1, inplace=True)
+        self.df.drop(labels='the_geom', axis=1, inplace=True)
 
 
 class MedicalIncidents():
@@ -78,7 +78,7 @@ class MedicalIncidents():
             return df
 
         _parse_dates()
-        self.medical_incidents_df = _get_medical_incidents()
+        self.df = _get_medical_incidents()
 
     def _convert_coords_to_shapely_point(self):
         """
@@ -89,8 +89,8 @@ class MedicalIncidents():
         US Census tract, since the tract boundaries are saved as POLYGONs.
         """
         points = []
-        for i, location in zip(self.medical_incidents_df.index,
-                               self.medical_incidents_df['Location']):
+        for i, location in zip(self.df.index,
+                               self.df['Location']):
             try:
                 lat = float(re.search(r'\((.*?)\,', location).group(1))
                 lon = float(re.search(r'\, (.*?)\)', location).group(1))
@@ -99,7 +99,7 @@ class MedicalIncidents():
                 # dataset, leave the Coords value to np.nan and move on.
                 lat, lon = np.nan, np.nan
             points.append(Point(lon, lat))
-        self.medical_incidents_df['Coords'] = points
+        self.df['Coords'] = points
 
     @staticmethod
     def _get_tract_data(tracts_filename):
@@ -111,9 +111,9 @@ class MedicalIncidents():
     @staticmethod
     def _find_tract(tracts, location):
         """Find the tract that each (lon, lat) pair is in."""
-        for idx, polygon in tracts.tracts_df['Polygon'].items():
+        for idx, polygon in tracts.df['Polygon'].items():
             if location.within(polygon):
-                tract = tracts.tracts_df.at[idx, 'GEOID10']
+                tract = tracts.df.at[idx, 'GEOID10']
                 return tract
         return np.nan
 
@@ -128,6 +128,5 @@ class MedicalIncidents():
         tracts = self._get_tract_data(tracts_filename)
         self._convert_coords_to_shapely_point()
 
-        for idx, location in self.medical_incidents_df['Coords'].items():
-            self.medical_incidents_df.at[idx, 'Tract'] = self._find_tract(
-                                                            tracts, location)
+        for idx, location in self.df['Coords'].items():
+            self.df.at[idx, 'Tract'] = self._find_tract(tracts, location)
