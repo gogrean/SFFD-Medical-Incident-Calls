@@ -80,6 +80,10 @@ class MedicalIncidents():
         _parse_dates()
         self.df = _get_medical_incidents()
 
+    def update_cached_df(self, pickled_df_filename='Med_Calls_with_Tracts.pkl'):
+        """Save the pickled dataframe."""
+        self.df.to_pickle(DATA_DIR + pickled_df_filename)
+
     def _convert_coords_to_shapely_point(self):
         """
         Convert (lon, lat) for each event to `shapely` POINT.
@@ -117,7 +121,9 @@ class MedicalIncidents():
                 return tract
         return np.nan
 
-    def assign_tracts_to_calls(self, tracts_filename='Census_2010_Tracts.csv'):
+    def assign_tracts_to_calls(self, tracts_filename='Census_2010_Tracts.csv',
+                               update_cached_df=False,
+                               pickled_df_filename='Med_Calls_with_Tracts.pkl'):
         """Assign tracts to each ambulance call.
 
         The tracts used come from the 2010 US Census. The ambulance call
@@ -130,3 +136,7 @@ class MedicalIncidents():
 
         for idx, location in self.df['Coords'].items():
             self.df.at[idx, 'Tract'] = self._find_tract(tracts, location)
+
+        # Save the pickled dataframe.
+        if update_cached_df:
+            self.update_cached_df(pickled_df_filename)
