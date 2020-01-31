@@ -2,9 +2,31 @@ import re
 
 import numpy as np
 import pandas as pd
+import geopandas as gpd
 from shapely.geometry import Point, Polygon
 
 DATA_DIR = '/Users/gogrean/Documents/data_projects/Fire_Department_Calls/data/'
+
+class CountyShape:
+    """Get county boundaries.
+
+    The tracts near the border of the counties in the US Census are very
+    rough, especially if the county borders water. To nicely plot the tracts,
+    a `shp` file with more precise boundary definitions is intersected with
+    the tract polygons defined in the US Census. The tract boundaries are
+    adjusted to the border coordinates in the `shp` file for tract boundary
+    coordinates found to be outside of the border defined in the `shp` file."""
+
+    def __init__(self, county):
+        # Read a `shp` file with county edge coordinates.
+        shp_fp = "Bay_Area_County_Boundaries/ark28722-s7hs4j-shapefile/s7hs4j.shp"
+        shp = gpd.read_file(DATA_DIR + shp_fp, encoding='UTF-8')
+        # Filter on county name.
+        if any(shp['COUNTY'] == county):
+            self.boundary = shp[shp['COUNTY'] == county]['geometry']
+        else:
+            raise ValueError('Shape file not found!')
+
 
 class Tracts:
     """Get the US Census tract data.
@@ -42,6 +64,35 @@ class Tracts:
             self.df.loc[i, 'Polygon'] = tract_poly
 
         self.df.drop(labels='the_geom', axis=1, inplace=True)
+
+    def get_boundaries(self):
+        self._convert_boundary_to_shapely_polygon()
+        # TODO: Would it make more sense to index this by tract id?
+        for i in self.df.index:
+            # If the tract has no land area...
+            if not self.df.at[i, 'ALAND10']:
+                self.df.loc[i, 'X'] = []
+                self.df.loc[i, 'Y'] = []
+            else:
+                # This is the land area of (most of) San Francisco County. Apparently also included
+                # in SF County are a few islands around the continental part? Those are mapped in
+                # sf.values[0][1:19]. However, I will ignore those areas here.
+                land_poly = sf_tracts_df.at[i, 'Polygon'].intersection(sf.values[0][0])
+                try:
+                    tract_coords_xy = [(x, y) for x, y in land_poly.exterior.coords]
+                except AttributeError:
+                    multi_land_polys = list(land_poly)
+                    n_polys = len(multi_land_polys)
+                    for p in multi_land_polys:
+                        tract_coords_xy = [(x, y) for x, y in p.exterior.coords]
+                        tract_coords_x.append([x for x, _ in tract_coords_xy])
+                        tract_coords_y.append([y for _, y in tract_coords_xy])
+                else:
+                    n_polys = 1
+                    tract_coords_x.append([x for x, _ in tract_coords_xy])
+                    tract_coords_y.append([y for _, y in tract_coords_xy])
+                finally:
+                    tract_names.extend([tract_id]*n_polys)
 
 
 class MedicalIncidents():
