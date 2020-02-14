@@ -17,6 +17,10 @@ class SFFDFireStation(db.Model):
     station_coords = db.Column(Geometry(geometry_type='POINT'),
                                nullable=False)
 
+    def __repr__(self):
+        return (f"Fire Station Name = {self.station_name} \n"
+                f"Fire Station Address = {self.station_address} \n\n")
+
 class SFHospital(db.Model):
     """Model the table of SF hospitals where ambulances transport patients."""
 
@@ -27,6 +31,10 @@ class SFHospital(db.Model):
     hospital_address = db.Column(db.String(100), nullable=False)
     hospital_coords = db.Column(Geometry(geometry_type='POINT'),
                                 nullable=False)
+
+    def __repr__(self):
+        return (f"Hospital Name = {self.hospital_name} \n"
+                f"Hospital Address = {self.hospital_address} \n\n")
 
 
 def connect_to_db(app):
