@@ -1,3 +1,4 @@
 data
+credentials
 code/*.pyc
 __pycache__
