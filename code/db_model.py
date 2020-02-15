@@ -56,6 +56,11 @@ class TractGeometry(db.Model):
     awater10 = db.Column(db.Integer, nullable=False)
     the_geom = db.Column(Geometry(geometry_type='MULTIPOLYGON'))
 
+    def __repr__(self):
+        return (f"GeoID10: {self.geoid10} \n"
+                f"Land Area: {self.aland10} sq meters \n"
+                f"Water Area: {self.awater10} sq meters \n")
+
 
 # class TractIncome(db.Model):
 #     """Model the table of income statistics by tract."""
