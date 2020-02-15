@@ -3,7 +3,42 @@ import urllib
 from bs4 import BeautifulSoup
 
 from location_tools import get_coords_from_address
+from tract_tools import get_updated_tract_data, build_multipolygon
 from utils import get_secret_key
+
+
+def get_tract_geom(update_tract_geom=True,
+                   tracts_filename='Census_2010_Tracts.csv'):
+    """Get the tract geometry.
+
+    The tract geometry information can be read directly from a CSV file if
+    `update_tract_geom=False`, or after intersecting the tracts with a
+    county shape file to create more accurate boundaries and change the
+    geometry of the polygons defining the tracts."""
+
+    tract_geom = []
+    if update_tract_geom:
+        tracts = get_updated_tract_data(tracts_filename)
+        for idx in tracts.df.index:
+            geoid10 = tracts.df.at[idx, 'GEOID10']
+            # converting these from type 'np.int64', which returns the
+            # following error when trying to insert into the database:
+            #
+            # psycopg2.ProgrammingError: can't adapt type 'numpy.int64'
+            #
+            # to type 'int', which somehow works...
+            aland10 = int(tracts.df.at[idx, 'ALAND10'])
+            awater10 = int(tracts.df.at[idx, 'AWATER10'])
+            multipolygon_constructor = build_multipolygon(tracts, geoid10)
+
+            tract_geom.append((geoid10, aland10, awater10,
+                               multipolygon_constructor))
+
+        return tract_geom
+    else:
+        # TODO: Implement reading the tract data as is from a CSV file.
+        raise Warning("Sorry, this is not implemented yet...")
+
 
 
 def get_hospitals():

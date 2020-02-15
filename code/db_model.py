@@ -21,6 +21,7 @@ class SFFDFireStation(db.Model):
         return (f"Fire Station Name = {self.station_name} \n"
                 f"Fire Station Address = {self.station_address} \n\n")
 
+
 class SFHospital(db.Model):
     """Model the table of SF hospitals where ambulances transport patients."""
 
@@ -29,12 +30,47 @@ class SFHospital(db.Model):
     hospital_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     hospital_name = db.Column(db.String(100), nullable=False)
     hospital_address = db.Column(db.String(100), nullable=False)
-    hospital_coords = db.Column(Geometry(geometry_type='POINT'),
-                                nullable=False)
+    hospital_coords = db.Column(Geometry(geometry_type='POINT'), nullable=False)
 
     def __repr__(self):
         return (f"Hospital Name = {self.hospital_name} \n"
                 f"Hospital Address = {self.hospital_address} \n\n")
+
+
+# class MedicalCall(db.Model):
+#     """Model the table of emergency calls requiring an ambulance."""
+#
+#     __tablename__ = 'medical_calls'
+#
+#     pass
+#
+
+class TractGeometry(db.Model):
+    """Model the table of tracts from the US Census."""
+
+    __tablename__ = 'tract_geom'
+
+    tract_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    geoid10 = db.Column(db.String(15), nullable=False)
+    aland10 = db.Column(db.Integer, nullable=False)
+    awater10 = db.Column(db.Integer, nullable=False)
+    #the_geom = db.Column(Geometry(geometry_type='MULTIPOLYGON'), nullable=False)
+
+
+# class TractIncome(db.Model):
+#     """Model the table of income statistics by tract."""
+#
+#     __tablename__ = 'income'
+#
+#     pass
+#
+#
+# class TractDemo(db.Model):
+#     """Model the table with demographic info by tract."""
+#
+#     __tablename__ = 'demographics'
+#
+#     pass
 
 
 def connect_to_db(app):
