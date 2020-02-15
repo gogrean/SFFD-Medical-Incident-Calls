@@ -54,8 +54,8 @@ def load_tract_geom_table():
         db_tract = TractGeometry(
                                  geoid10 = tract[0],
                                  aland10 = tract[1],
-                                 awater10 = tract[2]
-                                 #the_geom = tract[3]
+                                 awater10 = tract[2],
+                                 the_geom = tract[3]
                                 )
         db_tracts.append(db_tract)
 

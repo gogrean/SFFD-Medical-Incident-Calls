@@ -7,6 +7,7 @@ def decode_address(address):
     """Geocode address."""
 
     geolocator = Nominatim(user_agent="my_fd_app")
+
     return geolocator.geocode(address, timeout=180)
 
 
@@ -39,5 +40,5 @@ def get_coords_from_address(street_address, city=None, state=None):
         if location:
             return location
 
-    # if all else fails
+    # if all else fails... :-(
     raise AddressError(street_address, city, state)

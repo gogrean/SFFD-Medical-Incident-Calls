@@ -8,9 +8,10 @@ DATA_DIR = '/Users/gogrean/Documents/data_projects/Fire_Department_Calls/data/'
 
 def get_updated_tract_data(tracts_filename):
     """Make Tracts() object, with the boundaries as `shapely` polygons."""
-    
+
     tracts = Tracts(tracts_filename=tracts_filename)
     tracts.get_boundaries()
+
     return tracts
 
 
@@ -37,6 +38,8 @@ def build_multipolygon(tracts, geoid10):
         multipolygon_constructor_el += '))'
         polygons.append(multipolygon_constructor_el)
 
+    if not polygons:
+        return None
     multipolygon_constructor += ','.join(polygons)
     multipolygon_constructor += ')'
 
@@ -93,6 +96,7 @@ class Tracts:
 
         The tract dataframe must have a 'the_geom' column containing the
         coordinates of the polygon boundaries."""
+
         start, end = 'MULTIPOLYGON (((', ')))'
 
         for i, tract in enumerate(self.df['the_geom']):
@@ -109,8 +113,8 @@ class Tracts:
 
         The tract polygons have rough edges and do not presisely follow the
         contours of the county's boundary. Intersecting the tracts with the
-        county shape ensures a correct mapping of each tract's land area.
-        """
+        county shape ensures a correct mapping of each tract's land area."""
+
         self._convert_boundary_to_shapely_polygon()
         county = CountyShape(self.county)
         # TODO: Would it make more sense to index this by tract id?
@@ -146,8 +150,11 @@ class Tracts:
                 else:
                 # This else is here just to avoid having all this code under
                 # the `try` statement.
-                    n_polys = 1
-                    self.longitude.append([x for x, _ in tract_coords_xy])
-                    self.latitude.append([y for _, y in tract_coords_xy])
+                    if tract_coords_xy:
+                        n_polys = 1
+                        self.longitude.append([x for x, _ in tract_coords_xy])
+                        self.latitude.append([y for _, y in tract_coords_xy])
+                    else:
+                        n_polys = 0
                 finally:
                     self.tract_names.extend([tract_id]*n_polys)

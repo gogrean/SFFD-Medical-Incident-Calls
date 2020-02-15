@@ -19,7 +19,7 @@ class SFFDFireStation(db.Model):
 
     def __repr__(self):
         return (f"Fire Station Name = {self.station_name} \n"
-                f"Fire Station Address = {self.station_address} \n\n")
+                f"Fire Station Address = {self.station_address} \n")
 
 
 class SFHospital(db.Model):
@@ -34,7 +34,7 @@ class SFHospital(db.Model):
 
     def __repr__(self):
         return (f"Hospital Name = {self.hospital_name} \n"
-                f"Hospital Address = {self.hospital_address} \n\n")
+                f"Hospital Address = {self.hospital_address} \n")
 
 
 # class MedicalCall(db.Model):
@@ -54,7 +54,7 @@ class TractGeometry(db.Model):
     geoid10 = db.Column(db.String(15), nullable=False)
     aland10 = db.Column(db.Integer, nullable=False)
     awater10 = db.Column(db.Integer, nullable=False)
-    #the_geom = db.Column(Geometry(geometry_type='MULTIPOLYGON'), nullable=False)
+    the_geom = db.Column(Geometry(geometry_type='MULTIPOLYGON'))
 
 
 # class TractIncome(db.Model):
