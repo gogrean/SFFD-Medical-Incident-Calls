@@ -4,10 +4,11 @@ from sqlalchemy_utils import drop_database, create_database, database_exists
 from sqlalchemy.orm import sessionmaker
 
 from db_model import connect_to_db, db
-from db_model import SFFDFireStation, SFHospital, TractGeometry
+from db_model import SFFDFireStation, SFHospital, TractGeometry, MedicalCall
 from app import app
 from utils import get_secret_key
-from sf_data import get_fire_stations, get_hospitals, get_tract_geom
+from sf_data import get_fire_stations, get_hospitals, \
+                    get_tract_geom, get_medical_calls
 
 
 def load_fire_station_table():
@@ -62,6 +63,52 @@ def load_tract_geom_table():
     return db_tracts
 
 
+def load_medical_call_table():
+    """Load the table of medical calls into the database."""
+    MedicalCall.query.delete()
+
+    column_mapper = {'ALS Unit': 'als_unit', 'Coords': 'coords',
+                     'Zipcode of Incident': 'zipcode',
+                     'Call Type Group': 'call_type_group',
+                     'Neighborhooods - Analysis Boundaries': 'neighborhood',
+                     'Call Number': 'call_number',
+                     'Incident Number': 'incident_number',
+                     'Number of Alarms': 'number_alarms',
+                     'Unit sequence in call dispatch': 'unit_seq_dispatch',
+                     'Call Date': 'call_date', 'Watch Date': 'watch_date',
+                     'Received DtTm': 'received_dttm',
+                     'Entry DtTm': 'entry_dttm',
+                     'Dispatch DtTm': 'dispatch_dttm',
+                     'Response DtTm': 'response_dttm',
+                     'On Scene DtTm': 'onscene_dttm',
+                     'Transport DtTm': 'transport_dttm',
+                     'Hospital DtTm': 'hospital_dttm',
+                     'Available DtTm': 'available_dttm',
+                     'Call Type': 'call_type', 'RowID': 'rowid',
+                     'Call Final Disposition': 'call_final_disposition',
+                     'Unit Type': 'unit_type',
+                     'Address': 'address', 'Location': 'location',
+                     'City': 'city', 'Tract': 'tract', 'Battalion': 'battalion',
+                     'Final Priority': 'final_priority',
+                     'Fire Prevention District': 'fire_district',
+                     'Supervisor District': 'supervisor_district',
+                     'Station Area': 'station_area', 'Box': 'box',
+                     'Original Priority': 'original_priority',
+                     'Priority': 'priority'}
+
+    medical_calls = get_medical_calls()
+    medical_calls.rename(columns=column_mapper, inplace=True)
+
+    possible_NaT_cols = ['response_dttm', 'onscene_dttm', 'transport_dttm',
+                         'hospital_dttm', 'available_dttm']
+    for col in possible_NaT_cols:
+        medical_calls[col] = medical_calls[col].astype(object).where(medical_calls[col].notnull(), None)
+
+    medical_calls['coords'] = 'POINT' + medical_calls['location'].str.replace(',', '')
+
+    return medical_calls
+
+
 
 if __name__ == "__main__":
     connect_to_db(app)
@@ -94,6 +141,13 @@ if __name__ == "__main__":
 
     # Create the tables in the database.
     db.create_all()
+
+    # load the medical call table
+    with session_scope() as session:
+        db_medical_calls = load_medical_call_table()
+        session.bulk_insert_mappings(MedicalCall,
+                                     db_medical_calls.to_dict(orient='records'))
+
 
     # load the tract geometry table
     with session_scope() as session:

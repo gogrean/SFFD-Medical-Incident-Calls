@@ -3,6 +3,7 @@ from geoalchemy2.types import Geometry
 
 from utils import get_secret_key
 
+import sys
 
 db = SQLAlchemy()
 
@@ -37,21 +38,69 @@ class SFHospital(db.Model):
                 f"Hospital Address = {self.hospital_address} \n")
 
 
-# class MedicalCall(db.Model):
-#     """Model the table of emergency calls requiring an ambulance."""
-#
-#     __tablename__ = 'medical_calls'
-#
-#     pass
-#
+class MedicalCall(db.Model):
+    """Model the table of emergency calls requiring an ambulance."""
+
+    __tablename__ = 'medical_calls'
+
+    call_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    als_unit = db.Column(db.Boolean, nullable=False)
+    coords = db.Column(Geometry(geometry_type='POINT'), nullable=False)
+    zipcode = db.Column(db.String(10))
+    call_type_group = db.Column(db.String(50))
+    neighborhood = db.Column(db.String(50), nullable=False)
+
+    vars = ['call_number', 'incident_number',
+            'number_alarms', 'unit_seq_dispatch']
+    var_dict = dict([(var, db.Column(db.Integer, nullable=False))
+                     for var in vars])
+
+    vars = ['call_date', 'watch_date']
+    var_dict.update([(var, db.Column(db.Date, nullable=False)) for var in vars])
+
+    vars = ['received_dttm', 'entry_dttm', 'dispatch_dttm']
+    var_dict.update([(var, db.Column(db.DateTime, nullable=False))
+                     for var in vars])
+
+    vars = ['response_dttm', 'onscene_dttm', 'transport_dttm',
+            'hospital_dttm', 'available_dttm']
+    var_dict.update([(var, db.Column(db.DateTime)) for var in vars])
+
+    vars = ['call_type', 'rowid', 'unit_type']
+    var_dict.update([(var, db.Column(db.String(25), nullable=False))
+                     for var in vars])
+
+    vars = ['address', 'location', 'call_final_disposition']
+    var_dict.update([(var, db.Column(db.String(100), nullable=False))
+                     for var in vars])
+
+    vars = ['city', 'tract', 'box']
+    var_dict.update([(var, db.Column(db.String(25))) for var in vars])
+
+    vars = ['battalion', 'final_priority',
+            'fire_district', 'supervisor_district']
+    var_dict.update([(var, db.Column(db.String(5), nullable=False))
+                     for var in vars])
+
+    vars = ['station_area', 'original_priority', 'priority']
+    var_dict.update([(var, db.Column(db.String(5))) for var in vars])
+
+    locals().update(var_dict)
+
+    def __repr__(self):
+        return (f"Received DtTm: {self.received_dttm} \n"
+                f"On Scene DtTm: {self.onscene_dttm} \n"
+                f"Location: {self.location} \n"
+                f"Original Priority: {self.original_priority} \n"
+                f"Unit Type: {self.unit_type} \n")
+
 
 class TractGeometry(db.Model):
     """Model the table of tracts from the US Census."""
 
     __tablename__ = 'tract_geom'
 
-    tract_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    geoid10 = db.Column(db.String(15), nullable=False)
+    geoid10 = db.Column(db.String(15), primary_key=True)
     aland10 = db.Column(db.Integer, nullable=False)
     awater10 = db.Column(db.Integer, nullable=False)
     the_geom = db.Column(Geometry(geometry_type='MULTIPOLYGON'))
