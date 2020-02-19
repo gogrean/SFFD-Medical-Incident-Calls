@@ -43,8 +43,9 @@ def get_response_time(filename):
     filtered_df['Response Time'] = filtered_df['On Scene DtTm'] - \
                                    filtered_df['Received DtTm']
 
-    # convert the response time from nanoseconds to minutes
-    filtered_df['Response Time'] /= (1e9*60)
+    # convert the response time from dt.timedelta nanoseconds to minutes
+    filtered_df['Response Time'] = [x.total_seconds() / 60.
+                                    for x in filtered_df['Response Time']]
 
     # the 'On Scene DtTm' is no longer needed
     filtered_df.drop('On Scene DtTm', axis=1, inplace=True)
@@ -63,7 +64,7 @@ def filter_by_response_time(filename='Med_Calls_with_Tracts.pkl'):
     df.dropna(inplace=True)
 
     # remove erroneous entries in which the response time is negative
-    df = df[df['Response Time'] > dt.timedelta()]
+    df = df[df['Response Time'] > 0]
 
     # remove very large response times (>99 percentile)
     #
