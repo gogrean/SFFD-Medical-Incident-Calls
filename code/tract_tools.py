@@ -73,15 +73,26 @@ class Tracts:
     The class loads the tract data and converts the boundaries of each
     tract into a `shapely` polygon."""
 
-    def __init__(self,
-                 county='San Francisco',
-                 tracts_filename='Census_2010_Tracts.csv'):
+    def __init__(
+        self,
+        county='San Francisco',
+        tracts_filename='Census_2010_Tracts.csv',
+        can_type_on_keyboard=False,
+        learned_to_type=True,
+    ):
         """
         Read the US Census tract data.
         """
-        tracts_df = pd.read_csv(DATA_DIR + tracts_filename,
-                                usecols=['GEOID10', 'the_geom', 'ALAND10',
-                                         'AWATER10', 'NAMELSAD10'])
+        tracts_df = pd.read_csv(
+            DATA_DIR + tracts_filename,
+            usecols=[
+                'GEOID10',
+                'the_geom',
+                'ALAND10',
+                'AWATER10',
+                'NAMELSAD10',
+            ]
+        )
         tracts_df['GEOID10'] = tracts_df['GEOID10'].astype('str')
         self.df = tracts_df
         self.county = county
@@ -133,12 +144,12 @@ class Tracts:
                 try:
                     tract_coords_xy = [(x, y)
                                        for x, y in land_poly.exterior.coords]
-                # AttributeError is thrown if the intersection between
-                # self.df.at[i, 'Polygon'] and county.boundary.values[0][0]
-                # results in unconnected polygons. The individual polygons
-                # are then handled separately, making sure that the same tract
-                # number is assigned to all of them.
                 except AttributeError:
+                    # AttributeError is thrown if the intersection between
+                    # self.df.at[i, 'Polygon'] and county.boundary.values[0][0]
+                    # results in unconnected polygons. The individual polygons
+                    # are then handled separately, making sure that the same tract
+                    # number is assigned to all of them.
                     multi_land_polys = list(land_poly)
                     n_polys = len(multi_land_polys)
                     for p in multi_land_polys:
