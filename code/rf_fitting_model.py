@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 import holidays
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
 
 from mappings import NON_FEATURE_COLS, AMBULANCE_UNITS
 from sf_data import get_medical_calls
@@ -25,6 +27,9 @@ class RFModel:
         state='CA',
         prov=None,
         flag_weekends=True,
+        test_size=0.25,
+        random_state_split=None,
+        random_state_fit=None,
     ):
         """Read the pickled Pandas dataframe of medical incidents."""
         self.original_df = get_medical_calls(filename=filename)
@@ -32,12 +37,22 @@ class RFModel:
         # this will be the preprocessed dataframe
         self.df = deepcopy(self.original_df)
 
-        # set other class attributes
+        # set other data-related class attributes
         self.country = country
         self.state = state
         self.prov = prov
         self.flag_holidays = flag_holidays
         self.flag_weekends = flag_weekends
+
+        # set model-related class attributes
+        self.test_size = test_size
+        self.random_state_split = random_state_split
+        self.random_state_fit = random_state_fit
+
+        # remove NaN values caused by NaN 'Tract' or 'On Scene DtTm',
+        # since there are only a few of them -- these are the only NaN values,
+        # hence no filtering by column before dropping
+        self.df.dropna(inplace=True)
 
         # making this an integer allows directly using the value in the ML model
         # without HotOneEncoding the Tract feature first
@@ -77,11 +92,6 @@ class RFModel:
     def _filter_by_response_time(self):
         """Remove very large (likely incorrect) and negative response times."""
 
-        # remove NaN values caused by NaN 'On Scene DtTm',
-        # since there are few of them -- these are the only NaN values, hence no
-        # filtering by column before dropping
-        self.df.dropna(inplace=True)
-
         # remove erroneous entries in which the response time is negative
         self.df = self.df[self.df['Response Time'] > 0]
 
@@ -115,7 +125,6 @@ class RFModel:
         """Hot-one-encode non-numerical features."""
         self.df = pd.get_dummies(self.df)
 
-
     def preprocess(self):
         """Combine the preprocessing steps to return a dataframe for fitting."""
         self._filter_features()
@@ -126,3 +135,34 @@ class RFModel:
         self._hot_one_encode()
 
         return self.df
+
+    def _split_data(self):
+        """Split the dataset into training and testing subsets."""
+        y_labels = ['Response Time']
+        X_labels = [
+            lbl
+            for lbl in self.df.columns
+            if lbl not in y_labels
+        ]
+
+        X = self.df[X_labels]
+        y = self.df[y_labels]
+
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
+            X,
+            y,
+            test_size=self.test_size,
+            random_state=self.random_state_split
+        )
+
+    def fit_model(self):
+        """Fit a RF regression model to the data."""
+        self._split_data()
+        self.model = RandomForestRegressor(
+            n_estimators = 10,
+            random_state = self.random_state_fit,
+        )
+        self.model.fit(
+            self.X_train,
+            self.y_train.values.ravel()
+        )
