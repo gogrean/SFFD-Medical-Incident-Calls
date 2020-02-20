@@ -2,8 +2,8 @@ from flask import Flask
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
 
-from db_model import connect_to_db
-from utils import get_secret_key
+from code.db_model import connect_to_db
+from code.utils import get_secret_key
 
 app = Flask(__name__)
 

@@ -2,8 +2,9 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Polygon
 
+from code.utils import get_secret_key
 
-DATA_DIR = '/Users/gogrean/Documents/data_projects/Fire_Department_Calls/data/'
+DATA_DIR = get_secret_key('DATA_DIR')
 
 
 def get_updated_tract_data(tracts_filename):

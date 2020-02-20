@@ -2,7 +2,7 @@ import yaml
 import pandas as pd
 import holidays
 
-from mappings import WEEKEND_DAYS
+from code.mappings import WEEKEND_DAYS
 
 
 def get_secret_key(key_name, key_fp="../credentials/keys.yml"):

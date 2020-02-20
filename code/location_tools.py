@@ -1,6 +1,6 @@
 from geopy.geocoders import Nominatim
 
-from exceptions import AddressError
+from code.exceptions import AddressError
 
 
 def decode_address(address):

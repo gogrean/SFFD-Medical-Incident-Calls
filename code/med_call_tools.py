@@ -5,7 +5,7 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point, Polygon
 
-from tract_tools import get_updated_tract_data
+from code.tract_tools import get_updated_tract_data
 
 
 class MedicalIncidents():
@@ -77,7 +77,7 @@ class MedicalIncidents():
                 tract = tracts.df.at[idx, 'GEOID10']
                 return tract
         return np.nan
- 
+
     def assign_tracts_to_calls(self, tracts_filename='Census_2010_Tracts.csv',
                                update_cached_df=False,
                                pickled_df_filename='Med_Calls_with_Tracts.pkl'):

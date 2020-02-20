@@ -3,11 +3,11 @@ from contextlib import contextmanager
 from sqlalchemy_utils import drop_database, create_database, database_exists
 from sqlalchemy.orm import sessionmaker
 
-from db_model import connect_to_db, db
-from db_model import SFFDFireStation, SFHospital, TractGeometry, MedicalCall
-from app import app
-from utils import get_secret_key
-from sf_data import get_fire_stations, get_hospitals, \
+from code.db_model import connect_to_db, db
+from code.db_model import SFFDFireStation, SFHospital, TractGeometry, MedicalCall
+from code.flask import app
+from code.utils import get_secret_key
+from code.sf_data import get_fire_stations, get_hospitals, \
                     get_tract_geom, get_medical_calls
 
 

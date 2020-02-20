@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from geoalchemy2.types import Geometry
 
-from utils import get_secret_key
+from code.utils import get_secret_key
 
 import sys
 
