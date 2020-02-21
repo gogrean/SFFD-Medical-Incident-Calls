@@ -7,19 +7,14 @@ from code.utils import get_secret_key
 
 app = Flask(__name__)
 
+from . import views
+
 # reads the app key from a YAML file
 APP_KEY = get_secret_key('APP_KEY')
 app.secret_key = APP_KEY
 
 # Raises an error in the case of an undefined variable in Jinja2.
 app.jinja_env.undefined = StrictUndefined
-
-
-@app.route('/')
-def index():
-    """Homepage."""
-    return "<html><body>Placeholder for the homepage.</body></html>"
-
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
