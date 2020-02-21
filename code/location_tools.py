@@ -1,6 +1,8 @@
 from geopy.geocoders import Nominatim
 import geocoder
+from shapely.geometry import Point
 
+from code.tract_tools import get_updated_tract_data
 from code.exceptions import AddressError
 
 
@@ -22,8 +24,54 @@ def find_me():
         'longitude': myloc_properties['lng'],
     }
 
+
 def add_city_state(address, city, state):
+    """Return full address from street address, city, and state."""
     return address + f", {city} {state}"
+
+
+def get_new_incident_address(street_address):
+    """Return the address of a medical incident.
+
+    Take in the street address of a medical incident as entered by the
+    dispatcher, and combine it with the city and state of the dispatcher to
+    get the full address of the incident.
+
+    Warning: The assumption is that the dispatcher is in the same city as the
+    one in which the incident happens, which should generally be true. The
+    advantage of doing this is that the dispacher saves times by not having to
+    enter the same city and state over and over again."""
+    dispatch_loc = find_me()
+
+    return add_city_state(
+        street_address,
+        dispatch_loc['city'],
+        dispatch_loc['state'],
+    )
+
+
+def get_new_incident_coords(street_address):
+    """Return the coordinates of a medical incident using its street address.
+
+    See the warning in `get_new_incident_address` about assumptions made.
+    """
+    address = get_new_incident_address(street_address)
+    lct = decode_address(address)
+    if lct:
+        return (lct.longitude, lct.latitude)
+    return (None, None)
+
+
+def get_new_incident_tract(lng, lat):
+    """Return the tract corresponding to a given (longitude, latitude)."""
+    # TODO: The Census file should not be hardcoded in here...
+    tr = get_updated_tract_data(tracts_filename='Census_2010_Tracts.csv')
+    lct = Point(lng, lat)
+    for idx in range(len(tr.df)):
+        if lct.within(tr.df.loc[idx]['Polygon']):
+            return tr.df.loc[idx]['GEOID10']
+
+
 
 
 def get_coords_from_address(street_address, city=None, state=None):

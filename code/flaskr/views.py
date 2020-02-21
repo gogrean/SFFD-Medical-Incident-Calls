@@ -3,7 +3,8 @@ import datetime as dt
 from flask import render_template, request
 
 from . import app
-from code.location_tools import find_me, add_city_state
+from code.location_tools import get_new_incident_coords, \
+                                get_new_incident_tract
 
 @app.route('/')
 def index():
@@ -18,16 +19,15 @@ def estimated_wait_time():
     priority = request.args['priority']
     unit_type = request.args['unit-type']
 
-    dispatch_loc = find_me()
-    address = add_city_state(
-        street_address,
-        dispatch_loc['city'],
-        dispatch_loc['state'],
-    )
+    # TODO: If (lng, lat) are None, then the app should flash a warning that
+    # the address was not found.
+    lng, lat = get_new_incident_coords(street_address)
+    tract = get_new_incident_tract(lng, lat)
 
     return (
         "SANITY CHECK:"
-        f"\t Address: {address}, "
+        f"\t Coords: {lng} {lat}, "
+        f"\t Tract: {tract}, "
         f"\t Current DtTm: {current_DtTm}, "
         f"\t Priority: {priority}, "
         f"\t Unit Type: {unit_type}"

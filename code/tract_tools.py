@@ -78,8 +78,6 @@ class Tracts:
         self,
         county='San Francisco',
         tracts_filename='Census_2010_Tracts.csv',
-        can_type_on_keyboard=False,
-        learned_to_type=True,
     ):
         """
         Read the US Census tract data.
