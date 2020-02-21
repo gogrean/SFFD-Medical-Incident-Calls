@@ -49,14 +49,14 @@
         <form class="form-inline" action="/prediction">
           <i class="fas fa-search" aria-hidden="true"></i>
           <input class="form-control form-control-sm ml-3 w-50 active-cyan-3 active-cyan-4"
-            type="text" placeholder="Address" aria-label="Address">
+            type="text" placeholder="Street Address" name="incident-address" aria-label="Address">
 
           &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 
           <!-- INCIDENT PRIORITY-->
           <!-- List order matches the code frequency between 2001 and 2019,
           with the most common priority codes at the top. -->
-          <label for='incident-priority'>Priority:</label> &nbsp;&nbsp;&nbsp;
+          <label for="incident-priority">Priority:</label> &nbsp;&nbsp;&nbsp;
           <select name="priority" id="incident-priority">
             <option value="priority-3" selected>3</option>
             <option value="priority-2">2</option>
@@ -71,7 +71,7 @@
           &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 
           <!-- UNIT TYPE: Private or Fire Department Ambulance-->
-          <label for='unit-type'>Unit Type:</label> &nbsp;&nbsp;&nbsp;
+          <label for="unit-type">Unit Type:</label> &nbsp;&nbsp;&nbsp;
           <select name="unit-type" id="unit-type">
             <option value="fire" selected>Fire Department</option>
             <option value="private">Private</option>
