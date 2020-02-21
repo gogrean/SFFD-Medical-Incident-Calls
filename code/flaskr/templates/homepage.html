@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>SF Ambulance Dispatch</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Load Bootstrap 4 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Load Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+    <!-- Load our stylesheet -->
+    <link rel="stylesheet" href="../static/css/bootstrap-theme.css">
+
+  </head>
+
+  <body>
+
+    <!-- Static navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+      <a class="navbar-brand" href="#">SF Ambulance Dispatch</a>
+      <button class="navbar-toggler" type="button" data-toggle="navbar-nav" data-target="#navbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto">
+          <a class="nav-item nav-link" href="#">Statistics</a>
+          <a class="nav-item nav-link" href="#">Maps</a>
+        </div>
+        <div class="navbar-nav ml-auto">
+          <a class="nav-item nav-link active" href="#">Home</a>
+          <a class="nav-item nav-link" href="#">About</a>
+        </div>
+      </div>
+
+    </nav>
+
+<br><br>
+
+  <!-- Search form -->
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <section class="col-12 mx-auto" id="search">
+        <form class="form-inline" action="/prediction">
+          <i class="fas fa-search" aria-hidden="true"></i>
+          <input class="form-control form-control-sm ml-3 w-50 active-cyan-3 active-cyan-4"
+            type="text" placeholder="Address" aria-label="Address">
+
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+          <!-- INCIDENT PRIORITY-->
+          <!-- List order matches the code frequency between 2001 and 2019,
+          with the most common priority codes at the top. -->
+          <label for='incident-priority'>Priority:</label> &nbsp;&nbsp;&nbsp;
+          <select name="priority" id="incident-priority">
+            <option value="priority-3" selected>3</option>
+            <option value="priority-2">2</option>
+            <option value="priority-e">E</option>
+            <option value="priority-1">1</option>
+            <option value="priority-a">A</option>
+            <option value="priority-b">B</option>
+            <option value="priority-c">C</option>
+            <option value="priority-i">I</option>
+          </select>
+
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+          <!-- UNIT TYPE: Private or Fire Department Ambulance-->
+          <label for='unit-type'>Unit Type:</label> &nbsp;&nbsp;&nbsp;
+          <select name="unit-type" id="unit-type">
+            <option value="fire" selected>Fire Department</option>
+            <option value="private">Private</option>
+          </select>
+
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+          <button class="btn btn-info">Search</button>
+        </form>
+      </section>
+    </div>
+  </div>
+
+
+  </body>
+</html>
