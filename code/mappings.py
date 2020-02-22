@@ -7,6 +7,17 @@ WEEKEND_DAYS = [5, 6]
 AMBULANCE_UNITS = ['MEDIC', 'PRIVATE']
 
 
+PRIORITY_CODES = [
+    '3',
+    '2',
+    'E',
+    'A',
+    'B',
+    'C',
+    'I',
+]
+
+
 NON_FEATURE_COLS = [
     'Call Number',
     'Unit ID',

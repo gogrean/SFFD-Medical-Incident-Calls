@@ -20,8 +20,6 @@ def find_me():
     return {
         'city': myloc_properties['city'],
         'state': myloc_properties['state'],
-        'latitude': myloc_properties['lat'],
-        'longitude': myloc_properties['lng'],
     }
 
 
