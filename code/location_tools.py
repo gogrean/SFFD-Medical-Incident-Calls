@@ -41,11 +41,15 @@ def get_new_incident_address(street_address):
     enter the same city and state over and over again."""
     dispatch_loc = find_me()
 
-    return add_city_state(
-        street_address,
-        dispatch_loc['city'],
-        dispatch_loc['state'],
-    )
+    return {
+        'address': add_city_state(
+            street_address,
+            dispatch_loc['city'],
+            dispatch_loc['state'],
+        ),
+        'city': dispatch_loc['city'],
+        'state': dispatch_loc['state'],
+    }
 
 
 def get_new_incident_coords(street_address):
@@ -54,10 +58,15 @@ def get_new_incident_coords(street_address):
     See the warning in `get_new_incident_address` about assumptions made.
     """
     address = get_new_incident_address(street_address)
-    lct = decode_address(address)
+    lct = decode_address(address['address'])
     if lct:
-        return (lct.longitude, lct.latitude)
-    return (None, None)
+        return (
+            lct.longitude,
+            lct.latitude,
+            address['city'],
+            address['state'],
+        )
+    return (None, None, address['city'], address['state'])
 
 
 def get_new_incident_tract(lng, lat):
