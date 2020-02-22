@@ -76,9 +76,7 @@ def get_new_incident_tract(lng, lat):
     lct = Point(lng, lat)
     for idx in range(len(tr.df)):
         if lct.within(tr.df.loc[idx]['Polygon']):
-            return tr.df.loc[idx]['GEOID10']
-
-
+            return int(tr.df.loc[idx]['GEOID10'])
 
 
 def get_coords_from_address(street_address, city=None, state=None):
