@@ -4,6 +4,7 @@ from copy import deepcopy
 import numpy as np
 import pandas as pd
 import holidays
+from joblib import dump
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
@@ -158,11 +159,16 @@ class RFModel:
     def fit_model(self):
         """Fit a RF regression model to the data."""
         self._split_data()
-        self.model = RandomForestRegressor(
+        self.RFmodel = RandomForestRegressor(
             n_estimators = 10,
             random_state = self.random_state_fit,
         )
-        self.model.fit(
+        self.RFmodel.fit(
             self.X_train,
             self.y_train.values.ravel()
         )
+
+    def save_model(self):
+        """Save the RF regression model."""
+        # TODO: This is not tested yet!
+        dump(self.RFmodel, 'rf_model.joblib')
