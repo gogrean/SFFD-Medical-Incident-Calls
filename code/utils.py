@@ -1,6 +1,7 @@
 import yaml
 import pandas as pd
 import holidays
+from joblib import load
 
 from code.mappings import WEEKEND_DAYS
 
@@ -72,3 +73,8 @@ def set_lon_lat_from_shapely_point(df):
     df.drop('Coords', axis=1, inplace=True)
 
     return df
+
+
+def load_model(filename):
+    """Load a fitted scikit-learn model from the given filename."""
+    return load(filename)
