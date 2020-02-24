@@ -170,7 +170,7 @@ class RFModel:
             self.y_train.values.ravel()
         )
 
-    def save_model(self):
+    def save_model(self, filename='rf_model.joblib'):
         """Save the RF regression model."""
         # TODO: This is not tested yet!
-        dump(self.RFmodel, 'rf_model.joblib')
+        dump(self.RFmodel, filename)
