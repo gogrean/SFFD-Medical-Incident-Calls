@@ -31,6 +31,7 @@ class RFModel:
         test_size=0.25,
         random_state_split=None,
         random_state_fit=None,
+        n_estimators=10,
     ):
         """Read the pickled Pandas dataframe of medical incidents."""
         self.original_df = get_medical_calls(filename=filename)
@@ -49,6 +50,7 @@ class RFModel:
         self.test_size = test_size
         self.random_state_split = random_state_split
         self.random_state_fit = random_state_fit
+        self.n_estimators = n_estimators
 
         # remove NaN values caused by NaN 'Tract' or 'On Scene DtTm',
         # since there are only a few of them -- these are the only NaN values,
@@ -160,7 +162,7 @@ class RFModel:
         """Fit a RF regression model to the data."""
         self._split_data()
         self.RFmodel = RandomForestRegressor(
-            n_estimators = 10,
+            n_estimators = self.n_estimators,
             random_state = self.random_state_fit,
         )
         self.RFmodel.fit(
