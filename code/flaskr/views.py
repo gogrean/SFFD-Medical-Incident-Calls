@@ -9,7 +9,7 @@ from code.mappings import US_STATE_ABBR, \
                           AMBULANCE_UNITS
 from code.location_tools import get_new_incident_coords, \
                                 get_new_incident_tract
-from code.utils import set_time_features
+from code.utils import set_time_features, load_model
 
 
 @app.route('/')
@@ -60,14 +60,9 @@ def estimated_wait_time():
         state=state_abbr
     )
 
-    print(incident_df)
+    rf = load_model('rf_model.joblib')
+    wait_time = rf.predict(incident_df)[0]
 
-    return (
-        "SANITY CHECK:"
-        f"Coords: {lng} {lat}, "
-        f"Tract: {tract}, "
-        f"State: {state_abbr}, "
-        f"Current DtTm: {current_DtTm}, "
-        f"Priority: {priority}, "
-        f"Unit Type: {unit_type}"
-    )
+    print(f"ESTIMATED ARRIVAL TIME: {round(wait_time, 1)} minutes")
+
+    return f"{round(wait_time, 1)} minutes"

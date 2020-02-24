@@ -41,6 +41,11 @@ def get_new_incident_address(street_address):
     enter the same city and state over and over again."""
     dispatch_loc = find_me()
 
+    # TODO: This is for testing purposes only, otherwise the code fails when
+    # I run the code from home (Alameda). Remove it later!
+    dispatch_loc['city'] = 'San Francisco'
+    dispatch_loc['state'] = 'California'
+
     return {
         'address': add_city_state(
             street_address,
