@@ -172,5 +172,4 @@ class RFModel:
 
     def save_model(self, filename='rf_model.joblib'):
         """Save the RF regression model."""
-        # TODO: This is not tested yet!
         dump(self.RFmodel, filename)
