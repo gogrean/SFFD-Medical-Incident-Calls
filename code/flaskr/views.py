@@ -18,7 +18,9 @@ def index():
 
     return render_template("homepage.html")
 
-@app.route('/prediction')
+
+# TODO: Needs refactoring into smaller functions.
+@app.route('/make-prediction')
 def estimated_wait_time():
     current_DtTm = dt.datetime.now()
     street_address = request.args['incident-address']
