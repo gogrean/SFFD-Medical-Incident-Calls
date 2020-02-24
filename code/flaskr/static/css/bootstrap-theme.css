@@ -591,4 +591,13 @@ fieldset[disabled] .btn-danger.active {
 .active-cyan .fa, .active-cyan-2 .fa {
   color: #4dd0e1;
 }
+
+.display-prediction {
+  font-size: 40pt;
+  font-weight: bold;
+  color: rgb(130, 42, 42);
+  padding: 10px;
+  text-align: center;
+  margin-top: 50px;
+}
 /*# sourceMappingURL=bootstrap-theme.css.map */
