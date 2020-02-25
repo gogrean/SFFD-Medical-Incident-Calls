@@ -3,7 +3,9 @@ import pandas as pd
 import holidays
 from joblib import load
 
-from code.mappings import WEEKEND_DAYS
+from code.mappings import WEEKEND_DAYS,
+                          PRIORITY_CODES,
+                          AMBULANCE_UNITS
 
 
 def get_secret_key(key_name, key_fp="../credentials/keys.yml"):

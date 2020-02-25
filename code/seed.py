@@ -1,14 +1,22 @@
 from contextlib import contextmanager
 
-from sqlalchemy_utils import drop_database, create_database, database_exists
+from sqlalchemy_utils import drop_database, \
+                             create_database, \
+                             database_exists
 from sqlalchemy.orm import sessionmaker
 
-from code.db_model import connect_to_db, db
-from code.db_model import SFFDFireStation, SFHospital, TractGeometry, MedicalCall
+from code.db_model import connect_to_db, \
+                          db
+from code.db_model import SFFDFireStation, \
+                          SFHospital, \
+                          TractGeometry, \
+                          MedicalCall
 from code.flaskr import app
 from code.utils import get_secret_key
-from code.sf_data import get_fire_stations, get_hospitals, \
-                    get_tract_geom, get_medical_calls
+from code.sf_data import get_fire_stations, \
+                         get_hospitals, \
+                         get_tract_geom, \
+                         get_medical_calls
 
 
 def load_fire_station_table():
@@ -19,10 +27,10 @@ def load_fire_station_table():
     db_stations = []
     for station in stations:
         db_station = SFFDFireStation(
-                                     station_name = station[0],
-                                     station_address = station[1],
-                                     station_coords = f"POINT({station[2]} {station[3]})"
-                                    )
+            station_name = station[0],
+            station_address = station[1],
+            station_coords = f"POINT({station[2]} {station[3]})"
+        )
         db_stations.append(db_station)
 
     return db_stations

@@ -5,11 +5,13 @@ from flask import render_template, request
 
 from . import app
 from code.mappings import US_STATE_ABBR, \
-                          PRIORITY_CODES, \
                           AMBULANCE_UNITS
 from code.location_tools import get_new_incident_coords, \
                                 get_new_incident_tract
-from code.utils import set_time_features, load_model
+from code.utils import set_time_features, \
+                       load_model, \
+                       set_new_incident_priority_code, \
+                       set_new_incident_unit_type
 
 
 @app.route('/')
