@@ -28,6 +28,10 @@ def estimated_wait_time(
     filename='rf_model.joblib',
     model=None,
 ):
+    """Predict the wait time for an ambulance.
+
+    The prediction is made based on a fitted scikit-learn model and on the
+    user's input on the homepage."""
     # get the time of the incident
     # (it is the time when the request is made)
     current_DtTm = dt.datetime.now()
