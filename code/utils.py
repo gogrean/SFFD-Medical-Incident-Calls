@@ -108,3 +108,17 @@ def set_lon_lat_from_shapely_point(df):
 def load_model(filename):
     """Load a fitted scikit-learn model from the given filename."""
     return load(filename)
+
+
+def predict_eta(df, filename='rf_model.joblib', model=None):
+    """Predict the arrival time of an ambulance using a given model.
+
+    The model can be read from a joblib file, or can be passed directly to
+    the function."""
+    if filename:
+        m = load_model('rf_model.joblib')
+        return m.predict(df)[0]
+    elif model:
+        raise Warning("Sorry, this is not implemented yet...")
+    else:
+        raise Warning("Either the `filename` or the `model` parameters must be provided.")
