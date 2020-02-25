@@ -67,6 +67,34 @@ def set_holidays(df, country='US', state='CA', prov=None):
     return df
 
 
+def set_new_incident_priority_code(priority_code):
+    """Set the values of the priority code parameters for model fitting.
+
+    Each priority code parameter is set to 1 or 0, depending on an incident's
+    priority code. For example, for a code 2 incident, 'Original Priority_2'
+    would be set to 1, while 'Original Priority_3' would be set to 0.
+
+    The attribute `priority_code` is read from the user's selection on the
+    homepage, and has the form, e.g., 'priority-3'; the last character is the
+    actual priority code.
+    """
+    return dict(
+        [
+            (f"Original Priority_{pc}", int(priority[-1].upper() == pc))
+                for pc in PRIORITY_CODES
+        ]
+    )
+
+
+def set_new_incident_unit_type(unit_type):
+    return dict(
+        [
+            (f"Unit Type_{ut}", int(unit_type.upper() == ut))
+                for ut in AMBULANCE_UNITS
+        ]
+    )
+
+
 def set_lon_lat_from_shapely_point(df):
     """Set longitude and latitude columns from the POINT coordinates."""
     df['Latitude'] = df['Coords'].apply(lambda c: c.y)
