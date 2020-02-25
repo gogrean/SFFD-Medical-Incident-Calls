@@ -24,7 +24,12 @@ def index():
 # TODO: Needs refactoring into smaller functions.
 @app.route('/make-prediction')
 def estimated_wait_time():
+    # get the time of the incident
+    # (it is the time when the request is made)
     current_DtTm = dt.datetime.now()
+
+    # get the address, priority, and unit type from the user input on
+    # the homepage
     street_address = request.args['incident-address']
     priority = request.args['priority']
     unit_type = request.args['unit-type']
@@ -34,6 +39,8 @@ def estimated_wait_time():
     lng, lat, city, state = get_new_incident_coords(street_address)
     tract = get_new_incident_tract(lng, lat)
 
+    # make a dictionary whose keys match the names of the features in the
+    # RF model
     incident_dict = {
         'Received DtTm': current_DtTm,
         'Tract': tract,
@@ -41,31 +48,28 @@ def estimated_wait_time():
         'Longitude': lng,
     }
 
-    priority_codes_dict = dict(
-        [
-            (f"Original Priority_{pc}", int(priority[-1].upper() == pc))
-                for pc in PRIORITY_CODES
-        ]
-    )
+    # set the values (0 or 1) of the priority code parameters
+    priority_codes_dict = set_new_incident_priority_code(priority)
     incident_dict.update(priority_codes_dict)
 
-    unit_type_dict = dict(
-        [
-            (f"Unit Type_{ut}", int(unit_type.upper() == ut))
-                for ut in AMBULANCE_UNITS
-        ]
-    )
+    # set the values (0 or 1) of the unit type parameters
+    unit_type_dict = set_new_incident_unit_type(unit_type)
     incident_dict.update(unit_type_dict)
+
+    # convert the dictionary into a Pandas DataFrame
     incident_df = pd.DataFrame(incident_dict, index=[0])
 
+    # take the DataFrame above and set the time features from the
+    # 'Received DtTm' value
     state_abbr = US_STATE_ABBR[state]
     incident_df = set_time_features(
         incident_df,
         state=state_abbr
     )
 
-    rf = load_model('rf_model.joblib')
-    wait_time = rf.predict(incident_df)[0]
+    # send the incident_df DataFrame to the predict_eta function to estimate
+    # the arrival time for an ambulance
+    wait_time = predict_eta(incident_df)
 
     print(f"ESTIMATED ARRIVAL TIME: {round(wait_time, 1)} minutes")
 
