@@ -3,8 +3,8 @@ import pandas as pd
 import holidays
 from joblib import load
 
-from code.mappings import WEEKEND_DAYS,
-                          PRIORITY_CODES,
+from code.mappings import WEEKEND_DAYS, \
+                          PRIORITY_CODES, \
                           AMBULANCE_UNITS
 
 
@@ -67,7 +67,7 @@ def set_holidays(df, country='US', state='CA', prov=None):
     return df
 
 
-def set_new_incident_priority_code(priority_code):
+def set_new_incident_priority_code(priority):
     """Set the values of the priority code parameters for model fitting.
 
     Each priority code parameter is set to 1 or 0, depending on an incident's

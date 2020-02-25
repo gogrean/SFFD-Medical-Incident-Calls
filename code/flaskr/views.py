@@ -11,7 +11,8 @@ from code.location_tools import get_new_incident_coords, \
 from code.utils import set_time_features, \
                        load_model, \
                        set_new_incident_priority_code, \
-                       set_new_incident_unit_type
+                       set_new_incident_unit_type, \
+                       predict_eta
 
 
 @app.route('/')
@@ -23,7 +24,10 @@ def index():
 
 # TODO: Needs refactoring into smaller functions.
 @app.route('/make-prediction')
-def estimated_wait_time():
+def estimated_wait_time(
+    filename='rf_model.joblib',
+    model=None,
+):
     # get the time of the incident
     # (it is the time when the request is made)
     current_DtTm = dt.datetime.now()
@@ -69,7 +73,11 @@ def estimated_wait_time():
 
     # send the incident_df DataFrame to the predict_eta function to estimate
     # the arrival time for an ambulance
-    wait_time = predict_eta(incident_df)
+    wait_time = predict_eta(
+        incident_df,
+        filename=filename,
+        model=model,
+    )
 
     print(f"ESTIMATED ARRIVAL TIME: {round(wait_time, 1)} minutes")
 
