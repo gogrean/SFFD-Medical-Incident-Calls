@@ -83,6 +83,10 @@ class RFModel:
         # 'PRIVATE') response time, rather then response time for fire trucks, etc.
         self.df = self.df[self.df['Unit Type'].isin(AMBULANCE_UNITS)]
 
+        # from talking to paramedics, priority codes other than 2, 3, and E
+        # seem a little obscure, so they were removed from the analysis
+        self.df = self.df[self.df['Original Priority'].isin(['2', '3', 'E'])]
+
         # calculate the response time as the difference between the time a
         # unit arrives on scene and the time when the emergency call was
         # received

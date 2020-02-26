@@ -11,11 +11,6 @@ PRIORITY_CODES = [
     '3',
     '2',
     'E',
-    '1',
-    'A',
-    'B',
-    'C',
-    'I',
 ]
 
 TRIG_PARAMS = {
