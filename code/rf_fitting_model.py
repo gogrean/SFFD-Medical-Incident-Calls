@@ -210,11 +210,12 @@ class RFModel:
         self.model = RandomForestRegressor(
             **self.model_params_dict
         )
-        self.RFmodel.fit(
+
+        self.model.fit(
             self.X_train,
             self.y_train.values.ravel()
         )
 
     def save_model(self, filename='rf_model.joblib'):
         """Save the RF regression model."""
-        dump(self.RFmodel, filename)
+        dump(self.model, filename)
