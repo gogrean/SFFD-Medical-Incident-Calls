@@ -5,11 +5,13 @@ import numpy as np
 import pandas as pd
 import holidays
 from joblib import dump
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder, normalize
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.ensemble import RandomForestRegressor
 
-from code.mappings import NON_FEATURE_COLS, AMBULANCE_UNITS
+from code.mappings import NON_FEATURE_COLS, \
+                          AMBULANCE_UNITS, \
+                          DEFAULT_PARAM_DISTR_RFR
 from code.sf_data import get_medical_calls
 from code.utils import set_time_features, set_lon_lat_from_shapely_point
 
