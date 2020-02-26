@@ -72,7 +72,7 @@ def estimated_wait_time(
     state_abbr = US_STATE_ABBR[state]
     incident_df = set_time_features(
         incident_df,
-        state=state_abbr
+        state=state_abbr,
     )
 
     # send the incident_df DataFrame to the predict_eta function to estimate
