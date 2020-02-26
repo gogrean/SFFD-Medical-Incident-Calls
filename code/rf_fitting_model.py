@@ -51,8 +51,12 @@ class RFModel:
         # set model-related class attributes
         self.test_size = test_size
         self.random_state_split = random_state_split
-        self.random_state_fit = random_state_fit
-        self.n_estimators = n_estimators
+        self.model_params_dict = {
+            'random_state': random_state_fit,
+            'n_estimators': n_estimators,
+            'min_samples_split': min_samples_split,
+            'max_features': max_features,
+        }
 
         # remove NaN values caused by NaN 'Tract' or 'On Scene DtTm',
         # since there are only a few of them -- these are the only NaN values,
@@ -203,6 +207,8 @@ class RFModel:
                 verbose=2
             )
 
+        self.model = RandomForestRegressor(
+            **self.model_params_dict
         )
         self.RFmodel.fit(
             self.X_train,
