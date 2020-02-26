@@ -30,8 +30,10 @@ class RFModel:
         flag_weekends=True,
         test_size=0.25,
         random_state_split=None,
-        random_state_fit=None,
-        n_estimators=10,
+        random_state_fit=42,
+        n_estimators=250,
+        min_samples_split=50,
+        max_features='log2',
     ):
         """Read the pickled Pandas dataframe of medical incidents."""
         self.original_df = get_medical_calls(filename=filename)
@@ -158,12 +160,49 @@ class RFModel:
             random_state=self.random_state_split
         )
 
-    def fit_model(self):
+    # TODO: Test this code. Previously ran the grid search interactively
+    # in the Notebook...
+    def _run_grid_search(
+        self,
+        distributions=DEFAULT_PARAM_DISTR_RFR,
+        verbose=2,
+    ):
+        """Perform a grid search to find the best parameters for the model."""
+        # define the estimator
+        self.model = RandomForestRegressor(
+            random_state = self.model_params_dict['random_state']
+        )
+
+        # define the parameter space on which the seach will be run
+        self.clf = RandomizedSearchCV(
+            self.model,
+            distributions,
+            verbose=verbose,
+        )
+
+        # fit the model using the parameter combinations defined above
+        self.search = self.clf.fit(
+            self.X_train,
+            self.y_train.values.ravel()
+        )
+
+        # update the parameters with which the model will be fitted
+        self.model_params_dict.update(self.search.best_params_)
+
+    def fit_model(
+        self,
+        grid_search=False,
+        distributions=DEFAULT_PARAM_DISTR_RFR,
+        ):
         """Fit a RF regression model to the data."""
         self._split_data()
-        self.RFmodel = RandomForestRegressor(
-            n_estimators = self.n_estimators,
-            random_state = self.random_state_fit,
+
+        if grid_search:
+            self._run_grid_search(
+                distributions=distributions,
+                verbose=2
+            )
+
         )
         self.RFmodel.fit(
             self.X_train,
