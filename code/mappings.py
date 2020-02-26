@@ -18,6 +18,12 @@ PRIORITY_CODES = [
     'I',
 ]
 
+TRIG_PARAMS = {
+    'hour': 24,
+    'day_of_week': 7,
+    'day_of_year': 366,
+}
+
 
 NON_FEATURE_COLS = [
     'Call Number',

@@ -109,7 +109,7 @@ class RFModel:
     def _get_time_features(self):
         """Set time features in the dataframe used for modeling."""
 
-        # set the Year, Month, Day of the Week, and Hour columns, and
+        # set the Year, Day of Year, Day of Week, and Hour columns, and
         # optionally flag holidays and weekends
         self.df = set_time_features(
             self.df,

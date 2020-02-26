@@ -2,10 +2,12 @@ import yaml
 import pandas as pd
 import holidays
 from joblib import load
+import numpy as np
 
 from code.mappings import WEEKEND_DAYS, \
                           PRIORITY_CODES, \
-                          AMBULANCE_UNITS
+                          AMBULANCE_UNITS, \
+                          TRIG_PARAMS
 
 
 def get_secret_key(key_name, key_fp="../credentials/keys.yml"):
@@ -17,6 +19,19 @@ def get_secret_key(key_name, key_fp="../credentials/keys.yml"):
     return(credentials[key_name])
 
 
+def _evaluate_circular_feature(
+    raw_feature,
+    param,
+):
+    """Return the sin/cos of a circular time feature.
+
+    Parameter `param` can be 'hour', 'day_of_week', or 'day of year'."""
+    feature_in_radians = 2. * np.pi * raw_feature / TRIG_PARAMS[param]
+    return (
+        np.sin(feature_in_radians), np.cos(feature_in_radians)
+    )
+
+
 def set_time_features(df,
                       flag_weekends=True,
                       flag_holidays=True,
@@ -24,14 +39,37 @@ def set_time_features(df,
                       prov=None,
                       state='CA',
                     ):
-    """Split the date of a call into year, month, day of the week, and hour."""
+    """Split the date into year, day of year, day of the week, and hour."""
     df['Year'] = pd.DatetimeIndex(df['Received DtTm']).year
-    df['Month'] = pd.DatetimeIndex(df['Received DtTm']).month
-    df['Day_of_Week'] = pd.DatetimeIndex(df['Received DtTm']).weekday
-    df['Hour'] = [
-        round(t.hour + t.minute/60.)
-        for t in pd.DatetimeIndex(df['Received DtTm']).time
-    ]
+
+    # The hour, day of the week, and the day of the year are circular features.
+    # For example, in the case of hours, 23:30 is closer to 00:10 than 00:10 is
+    # to 3:00, but by encoding the hour as given, this circularity is missed.
+    # Instead, the circular features are split into (sin, cos) vector
+    # components; e.g., hour features are calculated on a unit circle where the
+    # angle of a point on the circle corresponds to the hour, and the hour
+    # 24:00 corresponds to 2pi.
+
+    # subtract 1 to have the days start at 0 and end at 365
+    # (for leap years; or 364 otherwise)
+    day_of_year = df['Received DtTm'].dt.dayofyear - 1
+    df['Day_of_Year_sin'], df['Day_of_Year_cos'] = _evaluate_circular_feature(
+        day_of_year,
+        param='day_of_year',
+    )
+
+    day_of_week = df['Received DtTm'].dt.weekday
+    df['Day_of_Week'] = day_of_week
+    df['Day_of_Week_sin'], df['Day_of_Week_cos'] = _evaluate_circular_feature(
+        day_of_week,
+        param='day_of_week',
+    )
+
+    hour = df['Received DtTm'].dt.hour + df['Received DtTm'].dt.minute / 60.
+    df['Hour_sin'], df['Hour_cos'] = _evaluate_circular_feature(
+        hour,
+        param='hour',
+    )
 
     if flag_weekends:
         df = set_weekends(df)
@@ -53,6 +91,8 @@ def set_weekends(df):
     """Flag calls received on weekends."""
     is_weekend_func = lambda d: 1 if d in WEEKEND_DAYS else 0
     df['is_weekend'] = df['Day_of_Week'].apply(is_weekend_func)
+
+    df.drop('Day_of_Week', axis=1, inplace=True)
 
     return df
 
