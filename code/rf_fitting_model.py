@@ -11,7 +11,8 @@ from sklearn.ensemble import RandomForestRegressor
 
 from code.mappings import NON_FEATURE_COLS, \
                           AMBULANCE_UNITS, \
-                          DEFAULT_PARAM_DISTR_RFR
+                          DEFAULT_PARAM_DISTR_RFR, \
+                          FEATURE_COLS
 from code.sf_data import get_medical_calls
 from code.utils import set_time_features, set_lon_lat_from_shapely_point
 
@@ -154,11 +155,7 @@ class RFModel:
     def _split_data(self):
         """Split the dataset into training and testing subsets."""
         y_labels = ['Response Time']
-        X_labels = [
-            lbl
-            for lbl in self.df.columns
-            if lbl not in y_labels
-        ]
+        X_labels = FEATURE_COLS
 
         X = self.df[X_labels]
         y = self.df[y_labels]

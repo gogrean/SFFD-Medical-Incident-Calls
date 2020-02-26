@@ -19,6 +19,26 @@ TRIG_PARAMS = {
     'day_of_year': 366,
 }
 
+FEATURE_COLS = [
+    'Tract',
+    'Year',
+    'Day_of_Year_sin',
+    'Day_of_Year_cos',
+    'Day_of_Week_sin',
+    'Day_of_Week_cos',
+    'Hour_sin',
+    'Hour_cos',
+    'is_weekend',
+    'is_holiday',
+    'Latitude',
+    'Longitude',
+    'Original Priority_2',
+    'Original Priority_3',
+    'Original Priority_E',
+    'Unit Type_MEDIC',
+    'Unit Type_PRIVATE',
+]
+
 
 NON_FEATURE_COLS = [
     'Call Number',

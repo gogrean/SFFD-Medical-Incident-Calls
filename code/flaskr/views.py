@@ -5,7 +5,8 @@ from flask import render_template, request
 
 from . import app
 from code.mappings import US_STATE_ABBR, \
-                          AMBULANCE_UNITS
+                          AMBULANCE_UNITS, \
+                          FEATURE_COLS
 from code.location_tools import get_new_incident_coords, \
                                 get_new_incident_tract
 from code.utils import set_time_features, \
@@ -74,6 +75,9 @@ def estimated_wait_time(
         incident_df,
         state=state_abbr,
     )
+
+    # columns reordered to match the training dataset
+    incident_df = incident_df[FEATURE_COLS]
 
     # send the incident_df DataFrame to the predict_eta function to estimate
     # the arrival time for an ambulance
