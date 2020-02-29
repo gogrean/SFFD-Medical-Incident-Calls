@@ -15,7 +15,7 @@ class SFFDFireStation(db.Model):
     station_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     station_name = db.Column(db.String(50), nullable=False)
     station_address = db.Column(db.String(100), nullable=False)
-    station_coords = db.Column(Geometry(geometry_type='POINT'),
+    coords = db.Column(Geometry(geometry_type='POINT'),
                                nullable=False)
 
     def __repr__(self):
@@ -31,7 +31,7 @@ class SFHospital(db.Model):
     hospital_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     hospital_name = db.Column(db.String(100), nullable=False)
     hospital_address = db.Column(db.String(100), nullable=False)
-    hospital_coords = db.Column(Geometry(geometry_type='POINT'), nullable=False)
+    coords = db.Column(Geometry(geometry_type='POINT'), nullable=False)
 
     def __repr__(self):
         return (f"Hospital Name = {self.hospital_name} \n"
