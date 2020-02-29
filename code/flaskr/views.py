@@ -55,6 +55,7 @@ def estimated_wait_time(
         'Tract': tract,
         'Latitude': lat,
         'Longitude': lng,
+        'Coords': Point(lng, lat),
     }
 
     # set the values (0 or 1) of the priority code parameters
@@ -74,6 +75,18 @@ def estimated_wait_time(
     incident_df = set_time_features(
         incident_df,
         state=state_abbr,
+    )
+
+    # add column with distance to the closest hospital
+    incident_df = find_dist_to_closest_hospital(
+        incident_df,
+        get_locations_as_shape(SFHospital)
+    )
+
+    # add column with distance to the closest fire station
+    incident_df = find_dist_to_closest_fire_station(
+        incident_df,
+        get_locations_as_shape(SFFDFireStation)
     )
 
     # columns reordered to match the training dataset
