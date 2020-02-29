@@ -2,8 +2,9 @@ import datetime as dt
 
 import pandas as pd
 from flask import render_template, request
+from shapely.geometry import Point
 
-from . import app
+from code.flaskr import app
 from code.mappings import US_STATE_ABBR, \
                           AMBULANCE_UNITS, \
                           FEATURE_COLS

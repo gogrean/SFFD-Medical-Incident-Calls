@@ -3,20 +3,14 @@ import pandas as pd
 import holidays
 from joblib import load
 import numpy as np
+from geoalchemy2.shape import to_shape
 
 from code.mappings import WEEKEND_DAYS, \
                           PRIORITY_CODES, \
                           AMBULANCE_UNITS, \
-                          TRIG_PARAMS
-
-
-def get_secret_key(key_name, key_fp="../credentials/keys.yml"):
-    """Read a key from a YAML file."""
-
-    with open(key_fp, 'r') as f:
-        credentials = yaml.load(f, Loader=yaml.FullLoader)
-
-    return(credentials[key_name])
+                          TRIG_PARAMS, \
+                          DEGREES_TO_MILES
+from code.location_tools import get_locations_as_shape
 
 
 def _evaluate_circular_feature(
@@ -26,6 +20,7 @@ def _evaluate_circular_feature(
     """Return the sin/cos of a circular time feature.
 
     Parameter `param` can be 'hour', 'day_of_week', or 'day of year'."""
+
     feature_in_radians = 2. * np.pi * raw_feature / TRIG_PARAMS[param]
     return (
         np.sin(feature_in_radians), np.cos(feature_in_radians)

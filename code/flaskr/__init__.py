@@ -3,11 +3,11 @@ from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
 
 from code.db_model import connect_to_db
-from code.utils import get_secret_key
+from code.key_utils import get_secret_key
 
 app = Flask(__name__)
 
-from . import views
+from code.flaskr import views
 
 # reads the app key from a YAML file
 APP_KEY = get_secret_key('APP_KEY')

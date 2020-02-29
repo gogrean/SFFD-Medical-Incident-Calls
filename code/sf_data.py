@@ -5,7 +5,7 @@ import pandas as pd
 
 from code.location_tools import get_coords_from_address
 from code.tract_tools import get_updated_tract_data, build_multipolygon
-from code.utils import get_secret_key
+from code.key_utils import get_secret_key
 
 
 def get_medical_calls(filename='Med_Calls_with_Tracts.pkl'):

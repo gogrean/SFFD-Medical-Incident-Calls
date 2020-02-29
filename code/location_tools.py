@@ -1,6 +1,7 @@
 from geopy.geocoders import Nominatim
 import geocoder
 from shapely.geometry import Point
+from geoalchemy2.shape import to_shape
 
 from code.tract_tools import get_updated_tract_data
 from code.exceptions import AddressError

@@ -6,13 +6,13 @@ from sqlalchemy_utils import drop_database, \
 from sqlalchemy.orm import sessionmaker
 
 from code.db_model import connect_to_db, \
-                          db
-from code.db_model import SFFDFireStation, \
+                          db, \
+                          SFFDFireStation, \
                           SFHospital, \
                           TractGeometry, \
                           MedicalCall
 from code.flaskr import app
-from code.utils import get_secret_key
+from code.key_utils import get_secret_key
 from code.sf_data import get_fire_stations, \
                          get_hospitals, \
                          get_tract_geom, \

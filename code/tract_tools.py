@@ -2,7 +2,7 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Polygon
 
-from code.utils import get_secret_key
+from code.key_utils import get_secret_key
 
 DATA_DIR = get_secret_key('DATA_DIR')
 
