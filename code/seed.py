@@ -117,6 +117,26 @@ def load_medical_call_table():
     return medical_calls
 
 
+def populate_tables(session):
+    """Populate the tables in the PSQL database."""
+
+    # load the tract geometry table
+    db_tract_geom = load_tract_geom_table()
+    session.add_all(db_tract_geom)
+
+    # load the hospital table
+    db_hospitals = load_hospital_table()
+    session.add_all(db_hospitals)
+
+    # load the medical call table
+    db_medical_calls = load_medical_call_table()
+    session.bulk_insert_mappings(MedicalCall,
+                                 db_medical_calls.to_dict(orient='records'))
+
+    # load the fire station table
+    db_fire_stations = load_fire_station_table()
+    session.add_all(db_fire_stations)
+
 
 if __name__ == "__main__":
     connect_to_db(app)
@@ -128,6 +148,7 @@ if __name__ == "__main__":
         """Provide a transational scope around creating a postgis extension
         when the database is being created."""
         session = Session(bind=db.engine.connect())
+
         try:
             yield session
             session.commit()
@@ -150,24 +171,5 @@ if __name__ == "__main__":
     # Create the tables in the database.
     db.create_all()
 
-    # load the medical call table
     with session_scope() as session:
-        db_medical_calls = load_medical_call_table()
-        session.bulk_insert_mappings(MedicalCall,
-                                     db_medical_calls.to_dict(orient='records'))
-
-
-    # load the tract geometry table
-    with session_scope() as session:
-        db_tract_geom = load_tract_geom_table()
-        session.add_all(db_tract_geom)
-
-    # load the hospital table
-    with session_scope() as session:
-        db_hospitals = load_hospital_table()
-        session.add_all(db_hospitals)
-
-    # load the fire station table
-    with session_scope() as session:
-        db_fire_stations = load_fire_station_table()
-        session.add_all(db_fire_stations)
+        populate_tables(session)
