@@ -39,8 +39,8 @@ class RFModel:
         test_size=0.25,
         random_state_split=None,
         random_state_fit=42,
-        n_estimators=250,
-        min_samples_split=50,
+        n_estimators=175,
+        min_samples_split=200,
         max_features='log2',
     ):
         """Read the pickled Pandas dataframe of medical incidents."""

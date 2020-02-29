@@ -152,5 +152,5 @@ US_STATE_ABBR = {
 DEFAULT_PARAM_DISTR_RFR = dict(
     n_estimators=[50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300],
     max_features=['log2', 'auto'],
-    min_samples_split=[50, 100, 200, 400, 800, 1600]
+    min_samples_split=[2, 5, 10, 25, 50, 100, 200, 400]
 )
