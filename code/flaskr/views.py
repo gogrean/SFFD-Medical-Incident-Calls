@@ -5,16 +5,21 @@ from flask import render_template, request
 from shapely.geometry import Point
 
 from code.flaskr import app
+from code.db_model import SFHospital, \
+                          SFFDFireStation
 from code.mappings import US_STATE_ABBR, \
                           AMBULANCE_UNITS, \
                           FEATURE_COLS
 from code.location_tools import get_new_incident_coords, \
-                                get_new_incident_tract
+                                get_new_incident_tract, \
+                                get_locations_as_shape
 from code.utils import set_time_features, \
                        load_model, \
                        set_new_incident_priority_code, \
                        set_new_incident_unit_type, \
-                       predict_eta
+                       predict_eta, \
+                       find_dist_to_closest_hospital, \
+                       find_dist_to_closest_fire_station
 
 
 @app.route('/')
@@ -56,7 +61,6 @@ def estimated_wait_time(
         'Tract': tract,
         'Latitude': lat,
         'Longitude': lng,
-        'Coords': Point(lng, lat),
     }
 
     # set the values (0 or 1) of the priority code parameters
@@ -69,6 +73,13 @@ def estimated_wait_time(
 
     # convert the dictionary into a Pandas DataFrame
     incident_df = pd.DataFrame(incident_dict, index=[0])
+
+    # this is added separately to the dataframe, rather to the dictionary
+    # used to create the dataframe, because Pandas otherwise splits the latitude
+    # and longitude in 'Coords' into two separate lines of the dataframe; this
+    # is a bug in Pandas, as it doesn't seem to handle shapely geometry objects
+    # correctly...
+    incident_df['Coords'] = Point(lng, lat)
 
     # take the DataFrame above and set the time features from the
     # 'Received DtTm' value
