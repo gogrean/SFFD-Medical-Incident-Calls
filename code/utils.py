@@ -135,6 +135,41 @@ def set_new_incident_unit_type(unit_type):
     )
 
 
+def get_shortest_distance(location, pts=None):
+    """Return the shortest distance between a location and a set of points."""
+    return min([location.distance(pt) for pt in pts])
+
+
+def find_dist_to_closest_fire_station(df, pts):
+    """Calculate the distance to the closest fire station."""
+
+    # calculate the closest fire station for each incident;
+    # result is in degrees
+    df['Nearest Fire Station'] = df['Coords'].apply(lambda x:
+        get_shortest_distance(x, pts=pts)
+    )
+
+    # convert the result to miles
+    df['Nearest Fire Station'] *= DEGREES_TO_MILES
+
+    return df
+
+
+def find_dist_to_closest_hospital(df, pts):
+    """Calculate the distance to the closest hospital."""
+
+    # calculate the closest fire station for each incident;
+    # result is in degrees
+    df['Nearest Hospital'] = df['Coords'].apply(lambda x:
+        get_shortest_distance(x, pts=pts)
+    )
+
+    # convert the result to miles
+    df['Nearest Hospital'] *= DEGREES_TO_MILES
+
+    return df
+
+
 def set_lon_lat_from_shapely_point(df):
     """Set longitude and latitude columns from the POINT coordinates."""
     df['Latitude'] = df['Coords'].apply(lambda c: c.y)

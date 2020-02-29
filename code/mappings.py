@@ -4,6 +4,10 @@
 WEEKEND_DAYS = [5, 6]
 
 
+DEGREES_TO_MILES = 69.
+DEGREES_TO_KM = 111.
+
+
 AMBULANCE_UNITS = ['MEDIC', 'PRIVATE']
 
 
@@ -37,6 +41,8 @@ FEATURE_COLS = [
     'Original Priority_E',
     'Unit Type_MEDIC',
     'Unit Type_PRIVATE',
+    'Nearest Fire Station',
+    'Nearest Hospital',
 ]
 
 

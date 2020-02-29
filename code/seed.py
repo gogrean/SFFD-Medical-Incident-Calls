@@ -29,7 +29,7 @@ def load_fire_station_table():
         db_station = SFFDFireStation(
             station_name = station[0],
             station_address = station[1],
-            station_coords = f"POINT({station[2]} {station[3]})"
+            coords = f"POINT({station[2]} {station[3]})"
         )
         db_stations.append(db_station)
 
@@ -44,10 +44,10 @@ def load_hospital_table():
     db_hospitals = []
     for hospital in hospitals:
         db_hospital = SFHospital(
-                                 hospital_name = hospital[0],
-                                 hospital_address = hospital[1],
-                                 hospital_coords = f"POINT({hospital[2]} {hospital[3]})"
-                                )
+             hospital_name = hospital[0],
+             hospital_address = hospital[1],
+             coords = f"POINT({hospital[2]} {hospital[3]})"
+        )
         db_hospitals.append(db_hospital)
 
     return db_hospitals

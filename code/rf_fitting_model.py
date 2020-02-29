@@ -14,7 +14,12 @@ from code.mappings import NON_FEATURE_COLS, \
                           DEFAULT_PARAM_DISTR_RFR, \
                           FEATURE_COLS
 from code.sf_data import get_medical_calls
-from code.utils import set_time_features, set_lon_lat_from_shapely_point
+from code.utils import set_time_features, \
+                       set_lon_lat_from_shapely_point, \
+                       find_dist_to_closest_fire_station, \
+                       find_dist_to_closest_hospital
+from code.location_tools import get_locations_as_shape
+from code.db_model import SFHospital, SFFDFireStation
 
 
 class RFModel:
@@ -141,12 +146,29 @@ class RFModel:
         """Hot-one-encode non-numerical features."""
         self.df = pd.get_dummies(self.df)
 
+    def _get_dist_to_closest_fire_station(self):
+        """Get the distance to the closest fire station."""
+        self.df = find_dist_to_closest_fire_station(
+            self.df,
+            get_locations_as_shape(SFFDFireStation)
+        )
+
+    def _get_dist_to_closest_hospital(self):
+        """Get the distance to the closest hospital."""
+
+        self.df = find_dist_to_closest_hospital(
+            self.df,
+            get_locations_as_shape(SFHospital)
+        )
+
     def preprocess(self):
         """Combine the preprocessing steps to return a dataframe for fitting."""
         self._filter_features()
         self._get_response_time()
         self._filter_by_response_time()
         self._get_time_features()
+        self._get_dist_to_closest_fire_station()
+        self._get_dist_to_closest_hospital()
         self._get_lon_lat()
         self._hot_one_encode()
 

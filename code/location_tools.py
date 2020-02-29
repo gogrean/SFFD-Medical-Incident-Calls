@@ -28,6 +28,24 @@ def add_city_state(address, city, state):
     return address + f", {city} {state}"
 
 
+def get_locations_as_shape(db_table):
+    """Return the locations of the fire stations as shapely objects."""
+    # hacky way to avoid circular imports... :-/
+    # TODO: Fix it, I guess?! ;-)
+    from code.flaskr import app
+    from code.db_model import db, connect_to_db
+    connect_to_db(app)
+
+    # get the positions of all fire stations as WKBElement objects;
+    # this returns tuples of one element each...
+    pts_wkbs = db_table.query.with_entities(
+        db_table.coords
+    ).all()
+
+    # converts the list above to a list of shapely POINT geometries
+    return [to_shape(wkb[0]) for wkb in pts_wkbs]
+
+
 def get_new_incident_address(street_address):
     """Return the address of a medical incident.
 
