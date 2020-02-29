@@ -103,7 +103,7 @@ def set_holidays(df, country='US', state='CA', prov=None):
 
 
 def set_new_incident_priority_code(priority):
-    """Set the values of the priority code parameters for model fitting.
+    """Set the values of the priority code parameters for a new incident.
 
     Each priority code parameter is set to 1 or 0, depending on an incident's
     priority code. For example, for a code 2 incident, 'Original Priority_2'
@@ -113,15 +113,13 @@ def set_new_incident_priority_code(priority):
     homepage, and has the form, e.g., 'priority-3'; the last character is the
     actual priority code.
     """
-    return dict(
-        [
-            (f"Original Priority_{pc}", int(priority[-1].upper() == pc))
-                for pc in PRIORITY_CODES
-        ]
-    )
+
+    return {f"Original Priority_{pc}": int(priority[-1].upper() == pc)
+            for pc in PRIORITY_CODES}
 
 
 def set_new_incident_unit_type(unit_type):
+    """Set the values of the unit type parameters for a new incident."""
     return dict(
         [
             (f"Unit Type_{ut}", int(unit_type.upper() == ut))
