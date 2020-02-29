@@ -111,22 +111,6 @@ class TractGeometry(db.Model):
                 f"Water Area: {self.awater10} sq meters \n")
 
 
-# class TractIncome(db.Model):
-#     """Model the table of income statistics by tract."""
-#
-#     __tablename__ = 'income'
-#
-#     pass
-#
-#
-# class TractDemo(db.Model):
-#     """Model the table with demographic info by tract."""
-#
-#     __tablename__ = 'demographics'
-#
-#     pass
-
-
 def connect_to_db(app):
     # reads the database name from a YAML file
     DB_NAME = get_secret_key('DB_NAME')
