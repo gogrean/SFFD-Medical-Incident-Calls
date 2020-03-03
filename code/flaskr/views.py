@@ -28,6 +28,12 @@ def index():
 
     return render_template("homepage.html")
 
+@app.route('/stats')
+def show_stats():
+    """Display tract statistics."""
+
+    return render_template("stats.html")
+
 
 # TODO: Needs refactoring into smaller functions.
 @app.route('/make-prediction')
