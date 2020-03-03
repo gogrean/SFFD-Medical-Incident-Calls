@@ -34,6 +34,20 @@ def show_stats():
 
     return render_template("stats.html")
 
+@app.route('/tract-stats')
+def get_tract_stats():
+    """Display the tract statistics."""
+    # get the location from the user input
+    street_address = request.args['location']
+
+    # TODO: If (lng, lat) are None, then the app should flash a warning that
+    # the address was not found.
+    lng, lat, city, state = get_new_incident_coords(street_address)
+    tract = get_new_incident_tract(lng, lat)
+
+    return str(tract)
+
+
 
 # TODO: Needs refactoring into smaller functions.
 @app.route('/make-prediction')
