@@ -30,7 +30,7 @@ def index():
 
 @app.route('/stats')
 def show_stats():
-    """Display tract statistics."""
+    """Display the statistics page."""
 
     return render_template("stats.html")
 
