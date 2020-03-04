@@ -1,7 +1,7 @@
 import datetime as dt
 
 import pandas as pd
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from shapely.geometry import Point
 
 from code.flaskr import app
