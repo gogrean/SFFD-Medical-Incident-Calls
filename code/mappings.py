@@ -8,6 +8,10 @@ DEGREES_TO_MILES = 69.
 DEGREES_TO_KM = 111.
 
 
+# time frequency at which the data is grouped before plotting the stats
+GROUPING_FREQ = 'QS'
+
+
 AMBULANCE_UNITS = ['MEDIC', 'PRIVATE']
 
 
