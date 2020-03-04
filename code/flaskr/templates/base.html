@@ -27,7 +27,7 @@
     <!-- Static navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-      <a class="navbar-brand" href="#">SF Ambulance Dispatch</a>
+      <a class="navbar-brand" href="{{url_for('index')}}">SF Ambulance Dispatch</a>
       <button class="navbar-toggler" type="button" data-toggle="navbar-nav" data-target="#navbar">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -38,7 +38,7 @@
           <a class="nav-item nav-link" href="#">Maps</a>
         </div>
         <div class="navbar-nav ml-auto">
-          <a class="nav-item nav-link active" href="#">Home</a>
+          <a class="nav-item nav-link active" href="{{url_for('index')}}">Home</a>
           <a class="nav-item nav-link" href="#">About</a>
         </div>
       </div>
