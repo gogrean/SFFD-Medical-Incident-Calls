@@ -20,7 +20,19 @@
 
             <!-- Clicking this button submits an AJAX request to calculate
             and display the estimated arrival time for an ambulance. -->
-            <button class="btn btn-info" id="get-estimate">Show Statistics</button>
+            <button class="btn btn-info" id="show-stats">Show Statistics</button>
 
+            <!-- Container in which the tract statistics are shown. -->
+            <div class="container-fluid">
+              <div class="row align-items-center">
+                <section class="col-12 mx-auto display-stats" id="tract-stats">
+                </section>
+              </div>
+            </div>
+
+  <!-- AJAX request to display the stats for the tract. -->
+  <div class="bokeh-scripts">
+  </div>
+  <script src="/static/js/show-stats.js"></script>
 
 {% endblock %}
