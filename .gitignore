@@ -4,4 +4,4 @@ code/*.pyc
 __pycache__
 flaskr/static/js/stats*.js
 flaskr/static/figs/stats*.html
-flaskr/templates/tract_stats/stats*.html
+flaskr/templates/stats_pages/stats*.html
