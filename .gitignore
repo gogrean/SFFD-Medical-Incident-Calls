@@ -6,7 +6,7 @@ code/flaskr/static/js/stats*
 code/flaskr/static/figs/stats*
 code/flaskr/templates/stats_pages/stats*
 code/.ipynb_checkpoints
-flaskr
+./flaskr
 code/*ipynb
 test.py
 *.ipynb

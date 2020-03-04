@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>{% block title %}TITLE GOES HERE{% endblock %}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Load Bootstrap 4 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Load Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+    <!-- Load our stylesheet -->
+    <link rel="stylesheet" href="../static/css/bootstrap-theme.css">
+
+    <!-- JQuery CDN -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.0.js"
+      integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Bokeh -->
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-1.4.0.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-1.4.0.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-1.4.0.min.js"></script>
+  </head>
+
+  <body>
+    <!-- Static navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+      <a class="navbar-brand" href="{{url_for('index')}}">SF Ambulance Dispatch</a>
+      <button class="navbar-toggler" type="button" data-toggle="navbar-nav" data-target="#navbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto">
+          <a class="nav-item nav-link" href="{{url_for('show_stats')}}">Statistics</a>
+          <a class="nav-item nav-link" href="#">Maps</a>
+        </div>
+        <div class="navbar-nav ml-auto">
+          <a class="nav-item nav-link active" href="{{url_for('index')}}">Home</a>
+          <a class="nav-item nav-link" href="#">About</a>
+        </div>
+      </div>
+
+    </nav>
+
+    <br><br>
+
+    {% block content %}PAGE BODY GOES HERE{% endblock %}
+  </body>
+
+</html>

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}SF Ambulance Dispatch ::: Homepage{% endblock %}
+
+{% block content %}
+
+  <!-- Search form -->
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <section class="col-12 mx-auto" id="search">
+        <form class="form-inline" action="/make-prediction">
+          <i class="fas fa-search" aria-hidden="true"></i>
+
+          <!-- STREET ADDRESS -->
+          <input class="form-control form-control-sm ml-3 w-50 active-cyan-3 active-cyan-4"
+            type="text" placeholder="Street Address" name="incident-address"
+            id="incident-address" aria-label="Address">
+
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+          <!-- INCIDENT PRIORITY-->
+          <!-- List order matches the code frequency between 2001 and 2019,
+          with the most common priority codes at the top. -->
+          <label for="incident-priority">Priority:</label> &nbsp;&nbsp;&nbsp;
+          <select name="priority" id="incident-priority">
+            <option value="priority-3" selected>3</option>
+            <option value="priority-2">2</option>
+            <option value="priority-e">E</option>
+          </select>
+
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+          <!-- UNIT TYPE: Private or Fire Department Ambulance-->
+          <label for="unit-type">Unit Type:</label> &nbsp;&nbsp;&nbsp;
+          <select name="unit-type" id="unit-type">
+            <option value="medic" selected>Fire Department</option>
+            <option value="private">Private</option>
+          </select>
+
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+          <!-- Clicking this button submits an AJAX request to calculate
+          and display the estimated arrival time for an ambulance. -->
+          <button class="btn btn-info" id="get-estimate">Predict</button>
+
+
+          <!-- Container in which the estimated arrival time for an ambulance
+          is shown. -->
+          <div class="container-fluid">
+            <div class="row align-items-center">
+              <section class="col-4 mx-auto" id="estimated-wait-time">
+                <p class="display-prediction"></p>
+              </section>
+            </div>
+          </div>
+
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <!-- AJAX request to display the estimated arrival time on the homepage. -->
+  <script src="/static/js/wait-time.js"></script>
+
+{% endblock %}
