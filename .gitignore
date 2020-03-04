@@ -2,6 +2,6 @@ data
 credentials
 code/*.pyc
 __pycache__
-flaskr/static/js/stats*.js
-flaskr/static/figs/stats*.html
-flaskr/templates/stats_pages/stats*.html
+flaskr/static/js/stats*
+flaskr/static/figs/stats*
+flaskr/templates/stats_pages/stats*
