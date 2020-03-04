@@ -34,19 +34,34 @@ def show_stats():
 
     return render_template("stats.html")
 
+
 @app.route('/tract-stats')
 def get_tract_stats():
     """Display the tract statistics."""
     # get the location from the user input
-    street_address = request.args['location']
+    location = request.args['location']
 
     # TODO: If (lng, lat) are None, then the app should flash a warning that
     # the address was not found.
-    lng, lat, city, state = get_new_incident_coords(street_address)
+    lng, lat, city, state = get_new_incident_coords(location)
     tract = get_new_incident_tract(lng, lat)
 
-    return str(tract)
+    js_script_for_tract = f'/Users/gogrean/Documents/data_projects/Fire_Department_Calls/code/flaskr/static/js/stats_script_tract{tract}.js'
+    div_for_tract = f'/Users/gogrean/Documents/data_projects/Fire_Department_Calls/code/flaskr/templates/stats_pages/stats_div_tract{tract}.html'
 
+    with open(div_for_tract, 'r') as f:
+        div_tract = f.read()
+
+    with open(js_script_for_tract, 'r') as f:
+        js_tract = f.read()
+
+    print(div_tract)
+    print(js_tract)
+
+    return jsonify(
+        js_tract=js_tract,
+        div_tract=div_tract,
+    )
 
 
 # TODO: Needs refactoring into smaller functions.
