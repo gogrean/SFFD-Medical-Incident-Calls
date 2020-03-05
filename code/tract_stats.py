@@ -1,8 +1,4 @@
-import sys
-
 import datetime as dt
-import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 from bokeh.plotting import figure, \
                            output_file, \
@@ -16,7 +12,6 @@ from bokeh.models import LinearAxis, \
                          ColumnDataSource, \
                          GMapOptions
 from sqlalchemy.sql import functions as func
-from geoalchemy2.shape import to_shape
 
 from code.key_utils import get_secret_key
 from code.flaskr import app
@@ -27,6 +22,8 @@ from code.db_model import db, \
 from code.mappings import AMBULANCE_UNITS, \
                           PRIORITY_CODES, \
                           GROUPING_FREQ
+from code.tract_tools import get_tract_geom
+
 
 GMAP_API_KEY = get_secret_key('GMAP_API_KEY')
 
