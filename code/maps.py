@@ -41,5 +41,3 @@ class MapPlotter:
         ).scalar()
 
         self.data = {}
-
-        print(self.min_year, self.max_year)
