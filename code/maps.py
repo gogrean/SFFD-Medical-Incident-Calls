@@ -1,3 +1,4 @@
+from geoalchemy2.shape import to_shape
 from sqlalchemy import Integer
 from sqlalchemy.sql import functions as func, \
                            extract, \
