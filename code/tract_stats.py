@@ -205,23 +205,6 @@ class StatsPlotter:
             ]
         ).size().reindex(my_idx, fill_value=0)
 
-    @staticmethod
-    def _get_tract_geom(tract):
-        """Get the geometry of the tract."""
-        tract_geometry = db.session.query(
-            TractGeometry.the_geom
-        ).filter(
-            TractGeometry.geoid10 == tract
-        ).first()
-
-        try:
-            geom = to_shape(tract_geometry[0])
-        except:
-            print(tract_geometry, tract)
-        cntr_lng, cntr_lat = geom[0].centroid.xy
-
-        return (geom, cntr_lng[0], cntr_lat[0])
-
     def plot_time_evol(
         self,
         tracts=None,
@@ -257,7 +240,7 @@ class StatsPlotter:
                 GROUPING_FREQ,
             )
 
-            tract_geometry, cntr_lng, cntr_lat = self._get_tract_geom(tr)
+            tract_geometry, cntr_lng, cntr_lat = get_tract_geom(tr)
 
             output_file(figs_output_dir + f"stats_tract{tr}.html")
             tools = "pan,wheel_zoom,box_zoom,crosshair,reset"

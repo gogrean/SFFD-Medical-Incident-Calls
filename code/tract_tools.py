@@ -1,8 +1,14 @@
 import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Polygon
+from geoalchemy2.shape import to_shape
 
 from code.key_utils import get_secret_key
+from code.flaskr import app
+from code.db_model import db, \
+                          connect_to_db, \
+                          TractGeometry
+                          
 
 DATA_DIR = get_secret_key('DATA_DIR')
 
@@ -14,6 +20,22 @@ def get_updated_tract_data(tracts_filename):
     tracts.get_boundaries()
 
     return tracts
+
+
+def get_tract_geom(tract):
+    """Extract the geometry of a specific tract from the database."""
+    connect_to_db(app)
+
+    tract_geometry = db.session.query(
+        TractGeometry.the_geom
+    ).filter(
+        TractGeometry.geoid10 == tract
+    ).first()
+
+    geom = to_shape(tract_geometry[0])
+    cntr_lng, cntr_lat = geom[0].centroid.xy
+
+    return (geom, cntr_lng[0], cntr_lat[0])
 
 
 def build_multipolygon(tracts, geoid10):
