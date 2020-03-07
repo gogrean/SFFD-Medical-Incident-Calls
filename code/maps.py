@@ -1,3 +1,8 @@
+import datetime as dt
+
+import pickle
+import numpy as np
+import pandas as pd
 from geoalchemy2.shape import to_shape
 from sqlalchemy import Integer
 from sqlalchemy.sql import functions as func, \
@@ -12,7 +17,16 @@ from bokeh.embed import components
 from bokeh.models import LinearAxis, \
                          Range1d, \
                          ColumnDataSource, \
-                         GMapOptions
+                         GMapOptions, \
+                         HoverTool, \
+                         LogColorMapper, \
+                         LinearColorMapper, \
+                         LogTicker, \
+                         BasicTicker, \
+                         FixedTicker, \
+                         ColorBar
+from bokeh.transform import linear_cmap, log_cmap
+from bokeh.layouts import layout
 
 from code.key_utils import get_secret_key
 from code.flaskr import app
@@ -22,7 +36,8 @@ from code.db_model import db, \
                           TractGeometry
 from code.mappings import AMBULANCE_UNITS, \
                           PRIORITY_CODES, \
-                          GROUPING_FREQ
+                          GROUPING_FREQ, \
+                          SQM_TO_100000SQFOOT
 from code.tract_tools import get_tract_geom
 
 

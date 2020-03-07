@@ -3,8 +3,11 @@ credentials
 code/*.pyc
 __pycache__
 code/flaskr/static/js/stats*
+code/flaskr/static/js/*map*.js
 code/flaskr/static/figs/stats*
+code/flaskr/static/figs/*map*.html
 code/flaskr/templates/stats_pages/stats*
+code/flaskr/templates/stats_pages/*map*.html
 code/.ipynb_checkpoints
 ./flaskr
 code/*ipynb
