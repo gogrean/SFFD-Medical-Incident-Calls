@@ -83,15 +83,17 @@ class MapPlotter:
         all_tract_lng = []
         all_tract_lat = []
         for tract_geom in all_tract_geoms:
+            tmp_lng, tmp_lat = [], []
             # a non-Pythonic way to check for null geometries, since objects
             # of type WKBElement do not support boolean operations
             if tract_geom is None:
-                continue
-            tmp_lng, tmp_lat = [], []
-            for pg in list(to_shape(tract_geom).geoms):
-                c = pg.exterior.coords.xy
-                tmp_lng.append(list(c[0]))
-                tmp_lat.append(list(c[1]))
+                tmp_lng.append([])
+                tmp_lat.append([])
+            else:
+                for pg in list(to_shape(tract_geom).geoms):
+                    c = pg.exterior.coords.xy
+                    tmp_lng.append(list(c[0]))
+                    tmp_lat.append(list(c[1]))
             all_tract_lng.append(tmp_lng)
             all_tract_lat.append(tmp_lat)
 
