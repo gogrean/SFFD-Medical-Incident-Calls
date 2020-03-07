@@ -6,6 +6,7 @@ WEEKEND_DAYS = [5, 6]
 
 DEGREES_TO_MILES = 69.
 DEGREES_TO_KM = 111.
+SQM_TO_100000SQFOOT = 9290.3
 
 
 # time frequency at which the data is grouped before plotting the stats
