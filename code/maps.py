@@ -41,6 +41,8 @@ from code.mappings import AMBULANCE_UNITS, \
 from code.tract_tools import get_tract_geom
 
 
+GMAP_API_KEY = get_secret_key('GMAP_API_KEY')
+
 class MapPlotter:
     """Plotting class for full map statistics."""
 
