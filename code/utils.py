@@ -13,6 +13,23 @@ from code.mappings import WEEKEND_DAYS, \
 from code.location_tools import get_locations_as_shape
 
 
+def get_fig_components(
+    div_filepath='',
+    js_filepath='',
+):
+    """Get the DIV and JS components of a Bokeh plot."""
+    with open(div_filepath, 'r') as f:
+        div_tag = f.read()
+
+    with open(js_filepath, 'r') as f:
+        js_func = f.read()
+
+    return (
+        div_tag,
+        js_func,
+    )
+
+
 def _evaluate_circular_feature(
     raw_feature,
     param,

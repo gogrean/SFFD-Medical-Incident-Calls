@@ -13,11 +13,9 @@ $(".form-inline").on('click', '#show-stats', (evt) => {
     'location': $('#location').val()
   };
 
-  console.log('Made it here!')
-
   $.get('/tract-stats', formInputs, (res) => {
-    $('.bokeh-scripts').html(res.js_tract);
-    $('.display-stats').html(res.div_tract);
+    $('.bokeh-scripts').html(res.js_func);
+    $('.display-stats').html(res.div_tag);
   });
 
 });

@@ -46,21 +46,31 @@ def get_tract_stats():
     lng, lat, city, state = get_new_incident_coords(location)
     tract = get_new_incident_tract(lng, lat)
 
-    js_script_for_tract = f'/Users/gogrean/Documents/data_projects/Fire_Department_Calls/code/flaskr/static/js/stats_script_tract{tract}.js'
-    div_for_tract = f'/Users/gogrean/Documents/data_projects/Fire_Department_Calls/code/flaskr/templates/stats_pages/stats_div_tract{tract}.html'
-
-    with open(div_for_tract, 'r') as f:
-        div_tract = f.read()
-
-    with open(js_script_for_tract, 'r') as f:
-        js_tract = f.read()
-
-    print(div_tract)
-    print(js_tract)
+    div_tag, js_func = get_fig_components(
+        div_filepath=f'{FLASK_DIR}/templates/stats_pages/stats_div_tract{tract}.html',
+        js_filepath=f'{FLASK_DIR}/static/js/stats_script_tract{tract}.js',
+    )
 
     return jsonify(
-        js_tract=js_tract,
-        div_tract=div_tract,
+        js_func=js_func,
+        div_tag=div_tag,
+    )
+
+
+@app.route('/resp-time-map')
+def get_resp_time_map():
+    """Display the response time distribution."""
+    # get the year from the user input
+    year = request.args['year']
+
+    div_tag, js_func = get_fig_components(
+        div_filepath=f'{FLASK_DIR}/templates/stats_pages/resp_time_map_div_{year}.html',
+        js_filepath=f'{FLASK_DIR}/static/js/resp_time_map_script_{year}.js',
+    )
+
+    return jsonify(
+        js_func=js_func,
+        div_tag=div_tag,
     )
 
 
