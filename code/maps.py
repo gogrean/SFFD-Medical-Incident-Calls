@@ -225,6 +225,8 @@ class MapPlotter:
         figs_output_dir='',
         scripts_output_dir='',
         div_output_dir='',
+        plot_width=750,
+        plot_height=600,
     ):
         """Plot maps of response time and medical incident density."""
 
@@ -372,8 +374,8 @@ class MapPlotter:
             resptime_plot = gmap(
                 GMAP_API_KEY,
                 resptime_map_options,
-                width=750,
-                height=600,
+                width=plot_width,
+                height=plot_height,
                 tools=tools,
                 toolbar_location='above',
             )
