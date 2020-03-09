@@ -42,6 +42,18 @@ def show_stats():
     return render_template("stats.html")
 
 
+@app.route('/response-times')
+def show_resp_time_map():
+    """Display the response time maps."""
+
+    DEFAULT_YEAR = '2019'
+
+    return render_template(
+        "resp_time_map.html",
+        default_year=DEFAULT_YEAR,
+    )
+
+
 @app.route('/tract-stats')
 def get_tract_stats():
     """Display the tract statistics."""
