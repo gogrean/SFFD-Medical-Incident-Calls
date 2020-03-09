@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}SF Ambulance Dispatch ::: Response Time{% endblock %}
+
+{% block content %}
+
+    <!-- Search form -->
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <section class="col-12 mx-auto" id="search">
+          <form class="form-inline" action="/resp-time-map">
+
+            <!-- YEAR: Year for which the map will be plotted. -->
+            &nbsp;&nbsp;&nbsp; <label for="year">Select a year:</label> &nbsp;&nbsp;&nbsp;
+            <select name="year" id="year">
+              {% for yr in range(2000, 2020) %}
+                <option value="{{yr}}"
+                  {% if yr|string == default_year %} selected {% endif %}>
+                    {{yr}}
+                </option>
+              {% endfor %}
+            </select>
+
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+            <!-- Clicking this button submits an AJAX request to calculate
+            and display the estimated arrival time for an ambulance. -->
+            <button class="btn btn-info" id="show-resp-time">Update Map</button>
+
+            <!-- Container in which the tract statistics are shown. -->
+            <section class="col-7 mx-auto align-top display-map" id="resp-time-map">
+              <div
+                class="bk-root"
+                id="778dd607-691f-47b0-8107-fec7777f0c73"
+                data-root-id="7554">
+              </div>
+            </section>
+          </form>
+        </section>
+      </div>
+    </div>
+
+  <!-- AJAX request to display the stats for the tract. -->
+  <script>
+    $(function(){
+      $(".bokeh-scripts").load("/static/js/resp_time_map_script_2019.js");
+    });
+  </script>
+  <div class="bokeh-scripts">
+  </div>
+
+  <script src="/static/js/show-resp-time-map.js"></script>
+
+{% endblock %}
