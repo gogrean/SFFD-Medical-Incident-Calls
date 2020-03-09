@@ -605,4 +605,9 @@ fieldset[disabled] .btn-danger.active {
   margin-top: 100px;
 }
 
+#resp-time-map {
+  margin-top: 0px;
+  margin-bottom: 25px;
+}
+
 /*# sourceMappingURL=bootstrap-theme.css.map */
