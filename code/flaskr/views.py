@@ -19,7 +19,13 @@ from code.utils import set_time_features, \
                        set_new_incident_unit_type, \
                        predict_eta, \
                        find_dist_to_closest_hospital, \
-                       find_dist_to_closest_fire_station
+                       find_dist_to_closest_fire_station, \
+                       get_fig_components
+from code.key_utils import get_secret_key
+
+
+CODE_DIR = get_secret_key('CODE_DIR')
+FLASK_DIR = f"{CODE_DIR}/flaskr/"
 
 
 @app.route('/')
@@ -27,6 +33,7 @@ def index():
     """Homepage."""
 
     return render_template("homepage.html")
+
 
 @app.route('/stats')
 def show_stats():
