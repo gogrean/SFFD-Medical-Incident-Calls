@@ -316,7 +316,11 @@ fieldset[disabled] .btn-danger.active {
 }
 
 .dropdown-menu > a:hover {
-  background-color: #e8e8e8;
+  background-color: #dedede;
+}
+
+.dropdown-menu {
+  background-color: #f2f2f2;
 }
 
 .dropdown-menu > li > a:hover,
