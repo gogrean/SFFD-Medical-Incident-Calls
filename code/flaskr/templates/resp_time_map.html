@@ -4,6 +4,8 @@
 
 {% block content %}
 
+    <br><br>
+
     <!-- Search form -->
     <div class="container-fluid">
       <div class="row">
@@ -17,8 +19,13 @@
               </div>
 
               <div class="form-group">
+                
                 <!-- YEAR: Year for which the map will be plotted. -->
-                <label for="year">Select a year:</label> &nbsp;&nbsp;&nbsp;
+                <label for="year"
+                       class="very-dark-gray-text">
+                    Select a year:
+                </label>
+                &nbsp;&nbsp;&nbsp;
                 <select name="year" id="year">
                   {% for yr in range(2000, 2020) %}
                     <option value="{{yr}}"
