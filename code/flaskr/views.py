@@ -35,6 +35,13 @@ def index():
     return render_template("homepage.html")
 
 
+@app.route('/about')
+def about():
+    """About page."""
+
+    return render_template("about.html")
+
+
 @app.route('/stats')
 def show_stats():
     """Display the statistics page."""
