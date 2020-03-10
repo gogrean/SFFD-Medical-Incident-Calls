@@ -54,6 +54,18 @@ def show_resp_time_map():
     )
 
 
+@app.route('/incident-density')
+def show_incident_density_map():
+    """Display the incident density maps."""
+
+    DEFAULT_YEAR = '2019'
+
+    return render_template(
+        "incident_density_map.html",
+        default_year=DEFAULT_YEAR,
+    )
+
+
 @app.route('/tract-stats')
 def get_tract_stats():
     """Display the tract statistics."""
@@ -85,6 +97,23 @@ def get_resp_time_map():
     div_tag, js_func = get_fig_components(
         div_filepath=f'{FLASK_DIR}/templates/stats_pages/resp_time_map_div_{year}.html',
         js_filepath=f'{FLASK_DIR}/static/js/resp_time_map_script_{year}.js',
+    )
+
+    return jsonify(
+        js_func=js_func,
+        div_tag=div_tag,
+    )
+
+
+@app.route('/incident-density-map')
+def get_incident_density_map():
+    """Display the incident density distribution."""
+    # get the year from the user input
+    year = request.args['year']
+
+    div_tag, js_func = get_fig_components(
+        div_filepath=f'{FLASK_DIR}/templates/stats_pages/density_map_div_{year}.html',
+        js_filepath=f'{FLASK_DIR}/static/js/density_map_script_{year}.js',
     )
 
     return jsonify(
