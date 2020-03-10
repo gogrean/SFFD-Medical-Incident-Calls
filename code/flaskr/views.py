@@ -212,6 +212,6 @@ def estimated_wait_time(
         model=model,
     )
 
-    print(f"ESTIMATED ARRIVAL TIME: {round(wait_time, 1)} minutes")
+    print(f"ESTIMATED ARRIVAL TIME: {int(round(wait_time, 0))} minutes")
 
-    return f"{round(wait_time, 1)} minutes"
+    return f"{int(round(wait_time))} minutes"
