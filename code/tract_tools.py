@@ -4,11 +4,7 @@ from shapely.geometry import Polygon
 from geoalchemy2.shape import to_shape
 
 from code.key_utils import get_secret_key
-from code.flaskr import app
-from code.db_model import db, \
-                          connect_to_db, \
-                          TractGeometry
-                          
+
 
 DATA_DIR = get_secret_key('DATA_DIR')
 
@@ -24,6 +20,13 @@ def get_updated_tract_data(tracts_filename):
 
 def get_tract_geom(tract):
     """Extract the geometry of a specific tract from the database."""
+    # hacky way to avoid circular imports--not pretty...
+    # TODO: Fix it?!
+    from code.flaskr import app
+    from code.db_model import db, \
+                              connect_to_db, \
+                              TractGeometry
+
     connect_to_db(app)
 
     tract_geometry = db.session.query(
