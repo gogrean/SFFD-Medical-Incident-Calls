@@ -614,9 +614,48 @@ fieldset[disabled] .btn-danger.active {
   margin-top: 100px;
 }
 
-#resp-time-map {
+.display-map {
   margin-top: 0px;
   margin-bottom: 25px;
+  padding-left: 50px;
+}
+
+.map-description {
+  margin-top: 30px;
+  margin-bottom: 25px;
+  color: #676767;
+}
+
+.year-form {
+  margin-top: 30px;
+}
+
+.page-title {
+  margin-bottom: 40px;
+}
+
+.interesting-fact-panel {
+  background-color: #004b4b;
+  border-radius: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
+
+.interesting-fact-title {
+  color: #ffffff;
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 5px;
+  font-size: 14pt;
+  font-variant: small-caps;
+}
+
+.interesting-fact-text {
+  color: #e8fff9;
+  font-style: italic;
+  font-size: 11pt;
 }
 
 /*# sourceMappingURL=bootstrap-theme.css.map */

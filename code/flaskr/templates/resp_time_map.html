@@ -6,35 +6,72 @@
 
     <!-- Search form -->
     <div class="container-fluid">
-      <div class="row align-items-center">
+      <div class="row">
         <section class="col-12 mx-auto" id="search">
           <form class="form-inline" action="/resp-time-map">
 
-            <!-- YEAR: Year for which the map will be plotted. -->
-            &nbsp;&nbsp;&nbsp; <label for="year">Select a year:</label> &nbsp;&nbsp;&nbsp;
-            <select name="year" id="year">
-              {% for yr in range(2000, 2020) %}
-                <option value="{{yr}}"
-                  {% if yr|string == default_year %} selected {% endif %}>
-                    {{yr}}
-                </option>
-              {% endfor %}
-            </select>
+            <section class="col-4 mb-auto year-form">
 
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              <div class="page-title">
+                <h4>Ambulance Response Time</h4>
+              </div>
 
-            <!-- Clicking this button submits an AJAX request to calculate
-            and display the estimated arrival time for an ambulance. -->
-            <button class="btn btn-info" id="show-resp-time">Update Map</button>
+              <div class="form-group">
+                <!-- YEAR: Year for which the map will be plotted. -->
+                <label for="year">Select a year:</label> &nbsp;&nbsp;&nbsp;
+                <select name="year" id="year">
+                  {% for yr in range(2000, 2020) %}
+                    <option value="{{yr}}"
+                      {% if yr|string == default_year %} selected {% endif %}>
+                        {{yr}}
+                    </option>
+                  {% endfor %}
+                </select>
 
-            <!-- Container in which the tract statistics are shown. -->
-            <section class="col-7 mx-auto align-top display-map" id="resp-time-map">
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+                <!-- The button submits an AJAX request to update the map. -->
+                <button class="btn btn-info"
+                        id="show-resp-time">
+                          Update Map
+                </button>
+              </div>
+
+              <div class="map-description">
+                The map shows the median ambulance response time in each tract<sup>*</sup>
+                of San Francisco for a given year.
+                  <br><br>
+                The response time is calculated as the difference in minutes
+                between the time a call is received and the time when an
+                ambulance arrives at the scene of the incident.
+                  <br><br>
+                <sup>*</sup><i>based on the 2010 US Census</i>
+              </div>
+
+              <div class="interesting-fact-panel">
+                <div class="interesting-fact">
+                  <div class="interesting-fact-title">
+                    Interesting Fact
+                  </div>
+                  <div class="interesting-fact-text">
+                    Between 2000 and 2019, the shortest median response time
+                    increased from 5 to 8 minutes, while the longest from 11 to
+                    15.
+                  </div>
+                </div>
+              </div>
+
+            </section>
+
+            <!-- Container in which the map is shown. -->
+            <div class="col-8 mx-auto display-map" id="resp-time-map">
               <div
                 class="bk-root"
                 id="778dd607-691f-47b0-8107-fec7777f0c73"
                 data-root-id="7554">
               </div>
-            </section>
+            </div>
+
           </form>
         </section>
       </div>
