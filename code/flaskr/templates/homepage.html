@@ -5,57 +5,103 @@
 {% block content %}
 
   <!-- Search form -->
-  <div class="container-fluid">
+  <div class="container-fluid mb-auto">
     <div class="row align-items-center">
-      <section class="col-12 mx-auto" id="search">
+      <section class="col-12 mx-auto search-banner" id="search">
         <form class="form-inline" action="/make-prediction">
-          <i class="fas fa-search" aria-hidden="true"></i>
 
-          <!-- STREET ADDRESS -->
-          <input class="form-control form-control-sm ml-3 w-50 active-cyan-3 active-cyan-4"
-            type="text" placeholder="Street Address" name="incident-address"
-            id="incident-address" aria-label="Address">
+          <div class="search-bar-text">
 
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-
-          <!-- INCIDENT PRIORITY-->
-          <!-- List order matches the code frequency between 2001 and 2019,
-          with the most common priority codes at the top. -->
-          <label for="incident-priority">Priority:</label> &nbsp;&nbsp;&nbsp;
-          <select name="priority" id="incident-priority">
-            <option value="priority-3" selected>3</option>
-            <option value="priority-2">2</option>
-            <option value="priority-e">E</option>
-          </select>
-
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-
-          <!-- UNIT TYPE: Private or Fire Department Ambulance-->
-          <label for="unit-type">Unit Type:</label> &nbsp;&nbsp;&nbsp;
-          <select name="unit-type" id="unit-type">
-            <option value="medic" selected>Fire Department</option>
-            <option value="private">Private</option>
-          </select>
-
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-
-          <!-- Clicking this button submits an AJAX request to calculate
-          and display the estimated arrival time for an ambulance. -->
-          <button class="btn btn-info" id="get-estimate">Predict</button>
-
-
-          <!-- Container in which the estimated arrival time for an ambulance
-          is shown. -->
-          <div class="container-fluid">
-            <div class="row align-items-center">
-              <section class="col-4 mx-auto" id="estimated-wait-time">
-                <p class="display-prediction"></p>
-              </section>
+            <!-- PAGE TITLE -->
+            <div class="page-title">
+              <h4>Ambulance Response Time Prediction<sup>*</sup></h4>
             </div>
+
+            <!-- Complete the fields below to predict the estimated arrival time for
+            an ambulance.<sup>*</sup>
+
+            The prediction is based on data recorded between 2000 and 2019.  -->
+          </div>
+
+          <section class="container-fluid form-group">
+
+            <!-- SEARCH ICON NEXT TO THE SEARCH BAR -->
+            <i class="fas fa-search" aria-hidden="true"></i>
+
+            <!-- STREET ADDRESS -->
+            <input class="form-control form-control-sm ml-3 w-50 active-cyan-3 active-cyan-4"
+                   type="text"
+                   placeholder="Street Address"
+                   name="incident-address"
+                   id="incident-address"
+                   aria-label="Address">
+
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+            <!-- INCIDENT PRIORITY-->
+            <!-- List order matches the code frequency between 2001 and 2019,
+            with the most common priority codes at the top. -->
+            <label for="incident-priority"
+                   class="very-dark-gray-text">
+                Priority:
+            </label>
+            &nbsp;&nbsp;&nbsp;
+            <select name="priority"
+                    id="incident-priority">
+              <option value="priority-3" selected>3</option>
+              <option value="priority-2">2</option>
+              <option value="priority-e">E</option>
+            </select>
+
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+            <!-- UNIT TYPE: Private or Fire Department Ambulance-->
+            <label for="unit-type"
+                   class="very-dark-gray-text">
+                Unit Type:
+            </label>
+            &nbsp;&nbsp;&nbsp;
+            <select name="unit-type"
+                    id="unit-type">
+                <option value="medic" selected>Fire Department</option>
+                <option value="private">Private</option>
+            </select>
+
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+            <!-- Clicking this button submits an AJAX request to calculate
+            and display the estimated arrival time for an ambulance. -->
+            <button class="btn btn-info"
+                    id="get-estimate">
+                Predict
+            </button>
+
+          </section>
+
+          <div class="search-bar-text">
+            <p class="medical-disclaimer"><sup>*</sup>The prediction is for
+              informational purposes only. If you believe you have a medical
+              emergency, call your doctor or 911.
+            </p>
           </div>
 
         </form>
       </section>
+
+      <!-- Container to show the estimated arrival time for an ambulance. -->
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <section class="col-12 mx-auto prediction-panel"
+                   id="estimated-wait-time">
+            <span class="prediction-panel-title">
+              Predicted Arrival Time:
+            </span>
+            <span class="display-prediction">
+            </span>
+          </section>
+        </div>
+      </div>
+
     </div>
   </div>
 
