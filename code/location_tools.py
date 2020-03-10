@@ -127,9 +127,11 @@ def get_coords_from_address(street_address, city=None, state=None):
             )
         else:
             full_address = street_address.split(",", 1)[0] + \
-                           f" {street_type}, " + street_address.split(",", 1)[1]
+                           f" {street_type}, " + \
+                           (street_address.split(",", 1)[1:] or '')
 
         location = decode_address(full_address)
+
         if location:
             return location
 
