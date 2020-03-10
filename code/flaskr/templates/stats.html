@@ -5,34 +5,86 @@
 {% block content %}
 
     <!-- Search form -->
-    <div class="container-fluid">
+    <div class="container-fluid mb-auto">
       <div class="row align-items-center">
-        <section class="col-12 mx-auto" id="search">
+        <section class="col-12 mx-auto search-banner" id="search">
           <form class="form-inline" action="/tract-stats">
-            <i class="fas fa-search" aria-hidden="true"></i>
 
-            <!-- STREET ADDRESS -->
-            <input class="form-control form-control-sm ml-3 w-50 active-cyan-3 active-cyan-4"
-              type="text" placeholder="Street Address" name="location"
-              id="location" aria-label="Address">
+            <div class="search-bar-text">
 
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-
-            <!-- Clicking this button submits an AJAX request to calculate
-            and display the estimated arrival time for an ambulance. -->
-            <button class="btn btn-info" id="show-stats">Show Statistics</button>
-
-            <!-- Container in which the tract statistics are shown. -->
-            <div class="container-fluid">
-              <div class="row align-items-center">
-                <section class="col-12 mx-auto display-stats" id="tract-stats">
-                </section>
+              <!-- PAGE TITLE -->
+              <div class="page-title">
+                <h4>Ambulance System Statistics</h4>
               </div>
+
+              <p class="dark-gray-text">
+                Enter an address below to display ambulance system statistics
+                for the corresponding 2010 US Census tract (marked on the map).
+              </p>
+
+              <p class="dark-gray-text">
+                The top-right figure shows the evolution in the number of
+                medical incidents between 2000 and 2019. Zoom in to restrict
+                the figure to a smaller date range. The incidents are divided by
+                their original priority code:
+                  <ul class="dark-gray-text">
+                    <li>2 = not life threatening;
+                    <li>3 = life threatening;
+                    <li>E = full arrest or imminent death.
+                  </ul>
+              </p>
+
+              <p class="dark-gray-text">
+              The bottom figure plots the evolution of the median response
+              time and number of incidents in the same date range as the figure
+              above. Zooming in and out of one figure changes the date range for
+              the other as well. Click on the labels in the legend to
+              hide/unhide one of the distributions.
+              </p>
+
             </div>
 
-  <!-- AJAX request to display the stats for the tract. -->
-  <div class="bokeh-scripts">
-  </div>
-  <script src="/static/js/show-stats.js"></script>
+            <section class="container-fluid form-group vertical-white-space">
+
+              <!-- SEARCH ICON NEXT TO THE SEARCH BAR -->
+              <i class="fas fa-search" aria-hidden="true"></i>
+
+              <!-- STREET ADDRESS -->
+              <input class="form-control form-control-sm ml-3 w-50 active-cyan-3 active-cyan-4"
+                     type="text"
+                     placeholder="Street Address"
+                     name="location"
+                     id="location"
+                     aria-label="Address">
+
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+              <!-- Clicking this button submits an AJAX request to calculate
+              and display the estimated arrival time for an ambulance. -->
+              <button class="btn btn-info"
+                      id="show-stats">
+                  Show Statistics
+              </button>
+
+            </section>
+
+          </form>
+        </section>
+
+        <!-- Container to show the tract statistics. -->
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <section class="col-12 mx-auto display-stats"
+                     id="tract-stats">
+            </section>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- AJAX request to display the stats for the tract. -->
+    <div class="bokeh-scripts"></div>
+    <script src="/static/js/show-stats.js"></script>
 
 {% endblock %}
