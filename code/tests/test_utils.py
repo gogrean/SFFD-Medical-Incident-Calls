@@ -27,5 +27,14 @@ class TestBokehPlots(unittest.TestCase):
                 js_filepath=self.js_filepath_fail,
             )
 
+        self.assertEqual(
+            len(
+                utils.get_fig_components(
+                    div_filepath=self.div_filepath_success,
+                    js_filepath=self.js_filepath_success,
+                )
+            ), 2
+        )
+
 if __name__ == '__main__':
     unittest.main()
