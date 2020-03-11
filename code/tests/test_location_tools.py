@@ -5,7 +5,7 @@ from code import exceptions
 
 
 class TestLocationTools(unittest.TestCase):
-    """Test that the function get_coords_from_address correctly decodes
+    """Test that the function `get_coords_from_address` correctly decodes
     known addresses or fails as expected.
 
     The following addresses are tested:
