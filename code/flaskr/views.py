@@ -1,7 +1,7 @@
 import datetime as dt
 
 import pandas as pd
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, flash, redirect, url_for
 from shapely.geometry import Point
 
 from code.flaskr import app
@@ -79,9 +79,24 @@ def get_tract_stats():
     # get the location from the user input
     location = request.args['location']
 
-    # TODO: If (lng, lat) are None, then the app should flash a warning that
-    # the address was not found.
     lng, lat, city, state = get_new_incident_coords(location)
+    print(lng, lat)
+    if not lng or not lat:
+        return jsonify(
+            js_func='',
+            div_tag='',
+            error_msg="""
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                  <button type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close">
+                  </button>
+                  <span><strong>Can't retrieve statistics. Address not found!</strong></span>
+                </div>
+            """,
+        )
+
     tract = get_new_incident_tract(lng, lat)
 
     div_tag, js_func = get_fig_components(
@@ -92,6 +107,7 @@ def get_tract_stats():
     return jsonify(
         js_func=js_func,
         div_tag=div_tag,
+        error_msg=None,
     )
 
 
@@ -152,6 +168,24 @@ def estimated_wait_time(
     # TODO: If (lng, lat) are None, then the app should flash a warning that
     # the address was not found.
     lng, lat, city, state = get_new_incident_coords(street_address)
+    if not lng or not lat:
+        return jsonify(
+            success='',
+            error_msg="""
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                  <button type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close">
+                  </button>
+                  <span>
+                    <b>
+                        Can't estimated the arrival time. Address not found!
+                    </b>
+                  </span>
+                </div>
+            """,
+        )
     tract = get_new_incident_tract(lng, lat)
 
     # make a dictionary whose keys match the names of the features in the
@@ -214,4 +248,7 @@ def estimated_wait_time(
 
     print(f"ESTIMATED ARRIVAL TIME: {int(round(wait_time, 0))} minutes")
 
-    return f"{int(round(wait_time))} minutes"
+    return jsonify(
+        success=f"{int(round(wait_time))} minutes",
+        error_msg=None,
+    )

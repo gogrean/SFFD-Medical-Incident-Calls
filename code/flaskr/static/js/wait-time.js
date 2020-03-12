@@ -16,6 +16,7 @@ $(".form-inline").on('click', '#get-estimate', (evt) => {
   };
 
   $.get('/make-prediction', formInputs, (res) => {
-    $('.display-prediction').html(res);
+    $('.display-prediction').html(res.success);
+    $('.flash-warning').html(res.error_msg);
   });
 });

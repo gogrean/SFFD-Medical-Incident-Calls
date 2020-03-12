@@ -16,6 +16,7 @@ $(".form-inline").on('click', '#show-stats', (evt) => {
   $.get('/tract-stats', formInputs, (res) => {
     $('.bokeh-scripts').html(res.js_func);
     $('.display-stats').html(res.div_tag);
+    $('.flash-warning').html(res.error_msg);
   });
 
 });
