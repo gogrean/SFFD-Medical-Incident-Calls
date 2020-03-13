@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}SF Ambulance Dispatch ::: Incident Density{% endblock %}
+
+{% block content %}
+
+    <br><br>
+
+    <!-- Search form -->
+    <div class="container-fluid">
+      <div class="row">
+        <section class="col-12 mx-auto" id="search">
+          <form class="form-inline" action="/incident-density-map">
+
+            <section class="col-4 mb-auto year-form">
+
+              <div class="page-title">
+                <h4>Medical Incident Density</h4>
+              </div>
+
+              <div class="form-group">
+                
+                <!-- YEAR: Year for which the map will be plotted. -->
+                <label for="year"
+                       class="very-dark-gray-text">
+                    Select a year:
+                </label>
+                &nbsp;&nbsp;&nbsp;
+                <select name="year" id="year">
+                  {% for yr in range(2000, 2020) %}
+                    <option value="{{yr}}"
+                      {% if yr|string == default_year %} selected {% endif %}>
+                        {{yr}}
+                    </option>
+                  {% endfor %}
+                </select>
+
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+                <!-- The button submits an AJAX request to update the map. -->
+                <button class="btn btn-info"
+                        id="show-incident-density">
+                          Update Map
+                </button>
+              </div>
+
+              <div class="map-description">
+                The map shows the medical incident density in each tract<sup>*</sup>
+                of San Francisco for a given year.
+                  <br><br>
+                The density is calculated as the tract-based total number of
+                calls that required an ambulance, divided by the area of the
+                tract, normalized to 100,000 sq ft.
+                  <br><br>
+                <sup>*</sup><i>based on the 2010 US Census</i>
+              </div>
+
+              <div class="interesting-fact-panel">
+                <div class="interesting-fact">
+                  <div class="interesting-fact-title">
+                    Interesting Fact
+                  </div>
+                  <div class="interesting-fact-text">
+                    In 2019, Tenderloin had a medical incident density of
+                    approximately 170 incidents per 100,000 sq ft, which is
+                    roughly equivalent to each soccer player on a National Women
+                    Soccer League team requesting an ambulance in each of the
+                    team's home games.
+                  </div>
+                </div>
+              </div>
+
+            </section>
+
+            <!-- Container in which the map is shown. -->
+            <div class="col-8 mx-auto display-map" id="incident-density-map">
+              <div class="bk-root"
+                   id="f53b5650-082d-4f2a-a86b-ec68cb910290"
+                   data-root-id="7387">
+              </div>
+            </div>
+
+          </form>
+        </section>
+      </div>
+    </div>
+
+  <!-- AJAX request to display the stats for the tract. -->
+  <script>
+    $(function(){
+      $(".bokeh-scripts").load("/static/js/density_map_script_2019.js");
+    });
+  </script>
+  <div class="bokeh-scripts">
+  </div>
+
+  <script src="/static/js/show-incident-density-map.js"></script>
+
+{% endblock %}
