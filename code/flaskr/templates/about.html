@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}SF Ambulance Dispatch ::: Homepage{% endblock %}
+
+{% block content %}
+
+    <div class="container about-page col-6">
+      <div class="row align-items-center">
+
+        <div class="page-title">
+          <h4>About the Project</h4>
+        </div>
+
+        <p class="dark-gray-text">
+        This application was developed as a Hackbright Academy four-week
+        project. It uses publicly available data from
+        <a href="https://data.sfgov.org/Public-Safety/Fire-Department-Calls-for-Service/nuek-vuh3">
+          DataSF
+        </a> to predict the ambulance arrival time at a given address and
+        calculate some ambulance system statistics.
+        </p>
+
+        <p class="dark-gray-text">
+        The prediction is based on a random forest regression model fitted to
+        data recorded between 2000 and 2019. The graph below shows the
+        importance of the various features used in the model.
+        </p>
+
+        <p class="dark-gray-text">
+        The uncertainty on the predicted ambulance arrival time is
+        approximately 3.5 minutes. Additional features, such as live travel time
+        to the incident, ambulance post locations, commuter-adjusted population
+        estimates, and homelessness data would likely improve the accuracy of
+        the prediction.
+        </p>
+
+        <p class="dark-gray-text">
+        To access the code, visit the project's
+        <a href="https://github.com/gogrean/SFFD-Medical-Incident-Calls">
+          GitHub repo.
+        </a>
+        </p>
+
+      </div>
+    </div>
+
+{% endblock %}
