@@ -11,27 +11,116 @@
           <h4>About the Project</h4>
         </div>
 
+        <div class="packages">
+          <div class="packages-title"></div>
+        </div>
+
         <p class="dark-gray-text">
         This application was developed as a Hackbright Academy four-week
         project. It uses publicly available data from
         <a href="https://data.sfgov.org/Public-Safety/Fire-Department-Calls-for-Service/nuek-vuh3">
           DataSF
         </a> to predict the ambulance arrival time at a given address and
-        calculate some ambulance system statistics.
+        to calculate statistics about the ambulance system in SF.
         </p>
 
         <p class="dark-gray-text">
         The prediction is based on a random forest regression model fitted to
-        data recorded between 2000 and 2019. The graph below shows the
-        importance of the various features used in the model.
+        data recorded between 2000 and 2019. Of a total of approximately 5.1
+        million records in the database, 3.3 million are listed as medical
+        incidents and they required a total of 1.7 million ambulance units being
+        dispatched&mdash;1.4 million from the fire department and 300,000
+        million private units. The app uses this filtered dataset of 1.7 million
+        entries recorded between 2000&ndash;2019.
         </p>
 
         <p class="dark-gray-text">
+        All the data was stored in a PostgreSQL database, whose tables are
+        depicted in the diagram below:
+        </p>
+        <img
+          src="{{url_for('static', filename='figs/db_schema.png')}}"
+          style="width:95%; margin-bottom:30px;";
+        ></img>
+
+        <p class="dark-gray-text">
+        The following features were extracted from the information in the
+        database and later used to fit the random forest regression model:
+        <br>
+        <ul>
+          <li><b class="dark-gray-text">Temporal Features</b>
+            <ul>
+              <li><code>Year</code></li>
+              <li><code>Day of Year_sin</code></li>
+              <li><code>Day of Year_cos</code></li>
+              <li><code>Day of Week_sin</code></li>
+              <li><code>Day of Week_cos</code></li>
+              <li><code>Hour_sin</code></li>
+              <li><code>Hour_cos</code></li>
+              <li><code>is_Weekend</code> <i>(boolean)</i></li>
+              <li><code>is_Holiday</code> <i>(boolean)</i></li>
+            </ul>
+          </li>
+
+        <br>
+
+          <li><b class="dark-gray-text">Spatial Features</b>
+            <ul>
+              <li><code>Latitude</code></li>
+              <li><code>Longitude</code></li>
+              <li><code>Tract</code> <i>(GEOID10 from 2010 US Census)</i></li>
+              <li><code>Nearest Hospital</code> <i>(distance)</i></li>
+              <li><code>Nearest Fire Station</code> <i>(distance)</i></li>
+            </ul>
+          </li>
+
+        <br>
+
+          <li><b class="dark-gray-text">Dispatcher Input</b>
+            <ul>
+              <li><code>Original Priority</code> <i>(3, 2, or E)</i></li>
+              <li><code>Unit Type</code> <i>(private or fire department)</i></li>
+            </ul>
+          </li>
+        </ul>
+        </p>
+
+        <p class="dark-gray-text">
+        Some of the temporal features above were decomposed into sine and
+        cosine components, to account for their circularity (e.g., 23:00 is
+        closer to midnight than to 21:00, but Python would have no way of
+        knowing this if the time was simply converted to a number, because 23
+        is closer to 21 than it is to 0.)
+        </p>
+
+        <p class="dark-gray-text">
+        The data was split into 75% training data and 25% testing data, and a
+        grid search was conducted over a set of 176 combinations of random
+        forest regression model parameters (11 <code>n_estimators</code> values
+        between 50 and 300, 8 <code>min_samples_split</code> values between 2
+        and 400, and 2 <code>max_features</code> values of "log2" and "auto").
+        The best-fitting model had <code>n_estimators = 175</code>,
+        <code>min_samples_split = 200</code>, and <code>max_features = "log2"
+        </code>.
+        </p>
+
+        <p class="dark-gray-text">
+        The graph below shows the importance of the features in the best-fitting
+         model. Input features related to the same human-interpretable parameter
+         were combined (e.g., <code>Hour_cos</code> and <code>Hour_sin</code>).
+        </p>
+
+        <img
+          src="{{url_for('static', filename='figs/feature_importance_rfr.png')}}"
+          style="width:95%; margin-bottom:30px;";
+        ></img>
+
+        <p class="dark-gray-text">
         The uncertainty on the predicted ambulance arrival time is
-        approximately 3.5 minutes. Additional features, such as live travel time
-        to the incident, ambulance post locations, commuter-adjusted population
-        estimates, and homelessness data would likely improve the accuracy of
-        the prediction.
+        approximately 3.5 minutes, which is an improvement of 24% over a naive
+        guess. Additional features, such as live travel time to the incident,
+        ambulance post locations, commuter-adjusted population estimates, and
+        homelessness data would likely improve the accuracy of the prediction.
         </p>
 
         <p class="dark-gray-text">
