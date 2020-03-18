@@ -13,25 +13,27 @@ The following features were extracted from the information in the database and l
 
 **Temporal Features**
 
-..* Year
-..* Day of Year_sin
-..* Day of Year_cos
-..* Day of Week_sin
-..* Day of Week_cos
-..* Hour_sin
-..* Hour_cos
-..* is_Weekend (boolean)
-..* is_Holiday (boolean)
+* `Year`
+* `Day of Year_sin`
+* `Day of Year_cos`
+* `Day of Week_sin`
+* `Day of Week_cos`
+* `Hour_sin`
+* `Hour_cos`
+* `is_Weekend` (boolean)
+* `is_Holiday` (boolean)
 
 **Spatial Features**
 
-..* Latitude
-..* Longitude
-..* Tract (GEOID10 from 2010 US Census)
-..* Nearest Hospital (distance)
-..* Nearest Fire Station (distance)
+* `Latitude`
+* `Longitude`
+* `Tract` (GEOID10 from 2010 US Census)
+* `Nearest Hospital` (distance)
+* `Nearest Fire Station` (distance)
 
 **Dispatcher Input**
 
-..* Original Priority (3, 2, or E)
-..* Unit Type (private or fire department)
+* `Original Priority` (3, 2, or E)
+* `Unit Type` (private or fire department)
+
+
