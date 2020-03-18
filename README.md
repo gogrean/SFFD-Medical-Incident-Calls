@@ -39,4 +39,8 @@ Some of the temporal features above were decomposed into sine and cosine compone
 
 The data was split into 75% training data and 25% testing data, and a grid search was conducted over a set of 176 combinations of random forest regression model parameters (11 `n_estimators` values between 50 and 300, 8 `min_samples_split` values between 2 and 400, and 2 `max_features` values of "log2" and "auto"). The best-fitting model had `n_estimators = 175`, `min_samples_split = 200`, and `max_features = "log2"`.
 
+
+
 The graph below shows the importance of the features in the best-fitting model. Input features related to the same human-interpretable parameter were combined (e.g., `Hour_cos` and `Hour_sin`).
+
+The uncertainty on the predicted ambulance arrival time is approximately 3.5 minutes, which is an improvement of 24% over a naive guess. Additional features, such as live travel time to the incident, ambulance post locations, commuter-adjusted population estimates, and homelessness data would likely improve the accuracy of the prediction.
