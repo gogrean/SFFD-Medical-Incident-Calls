@@ -1,5 +1,4 @@
 # ezEMS Planner
-Hackbright Academy Project
 
 This application was developed as a Hackbright Academy four-week project. It uses publicly available data from [DataSF](https://data.sfgov.org/Public-Safety/Fire-Department-Calls-for-Service/nuek-vuh3) to predict the ambulance arrival time at a given address and to calculate statistics about the ambulance system in SF.
 
@@ -36,4 +35,8 @@ The following features were extracted from the information in the database and l
 * `Original Priority` (3, 2, or E)
 * `Unit Type` (private or fire department)
 
+Some of the temporal features above were decomposed into sine and cosine components, to account for their circularity (e.g., 23:00 is closer to midnight than to 21:00, but Python would have no way of knowing this if the time was simply converted to a number, because 23 is closer to 21 than it is to 0.)
 
+The data was split into 75% training data and 25% testing data, and a grid search was conducted over a set of 176 combinations of random forest regression model parameters (11 `n_estimators` values between 50 and 300, 8 `min_samples_split` values between 2 and 400, and 2 `max_features` values of "log2" and "auto"). The best-fitting model had `n_estimators = 175`, `min_samples_split = 200`, and `max_features = "log2"`.
+
+The graph below shows the importance of the features in the best-fitting model. Input features related to the same human-interpretable parameter were combined (e.g., `Hour_cos` and `Hour_sin`).
