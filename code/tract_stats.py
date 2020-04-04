@@ -84,9 +84,10 @@ class StatsPlotter:
 
     @staticmethod
     def _get_tracts(tracts):
-        """Get the tracts for which the stats will be plotted."""
-        # if no tracts are given as input, the stats are plotted for
-        # all the tracts in the database
+        """Get the tracts for which the stats will be plotted.
+        
+        If no tracts are given as input, the stats are plotted for
+        all the tracts in the database."""
         if not tracts:
             tracts = [
                 tr[0] for tr in db.session.query(
