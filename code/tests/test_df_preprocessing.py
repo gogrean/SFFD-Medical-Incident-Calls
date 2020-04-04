@@ -20,8 +20,6 @@ class TestModelFeatures(unittest.TestCase):
             '00', '00', '00'
         )
 
-        print(f'{self.year}-{self.month}-{self.day} {self.hour}:{self.minutes}:{self.seconds}')
-
         df_dict = {
             col_name: dt.datetime.strptime(
                 f'{self.year}-{self.month}-{self.day} {self.hour}:{self.minutes}:{self.seconds}',
