@@ -9,6 +9,10 @@ class AddressError(Error):
         error_message = "Unable to geocode the following address:"
         if city and state:
             self.message = f"{error_message} {address}, {city}, {state}."
+        elif city:
+            self.message = f"{error_message} {address}, {city}."
+        elif state:
+            self.message = f"{error_message} {address}, {state}."
         else:
             self.message = f"{error_message} {address}."
 
