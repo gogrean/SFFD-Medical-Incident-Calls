@@ -15,7 +15,7 @@
           <div class="packages-title"></div>
         </div>
 
-        <p class="dark-gray-text">
+        <p class="primary-text">
         This application was developed as a Hackbright Academy four-week
         project. It uses publicly available data from
         <a href="https://data.sfgov.org/Public-Safety/Fire-Department-Calls-for-Service/nuek-vuh3">
@@ -24,7 +24,7 @@
         to calculate statistics about the ambulance system in SF.
         </p>
 
-        <p class="dark-gray-text">
+        <p class="primary-text">
         The prediction is based on a random forest regression model fitted to
         data recorded between 2000 and 2019. Of a total of approximately 5.1
         million records in the database, 3.3 million are listed as medical
@@ -34,7 +34,7 @@
         entries recorded between 2000&ndash;2019.
         </p>
 
-        <p class="dark-gray-text">
+        <p class="primary-text">
         All the data was stored in a PostgreSQL database, whose tables are
         depicted in the diagram below:
         </p>
@@ -43,12 +43,12 @@
           style="width:95%; margin-bottom:30px;";
         ></img>
 
-        <p class="dark-gray-text">
+        <p class="primary-text">
         The following features were extracted from the information in the
         database and later used to fit the random forest regression model:
         <br>
         <ul>
-          <li><b class="dark-gray-text">Temporal Features</b>
+          <li><b class="primary-text">Temporal Features</b>
             <ul>
               <li><code>Year</code></li>
               <li><code>Day of Year_sin</code></li>
@@ -64,7 +64,7 @@
 
         <br>
 
-          <li><b class="dark-gray-text">Spatial Features</b>
+          <li><b class="primary-text">Spatial Features</b>
             <ul>
               <li><code>Latitude</code></li>
               <li><code>Longitude</code></li>
@@ -76,7 +76,7 @@
 
         <br>
 
-          <li><b class="dark-gray-text">Dispatcher Input</b>
+          <li><b class="primary-text">Dispatcher Input</b>
             <ul>
               <li><code>Original Priority</code> <i>(3, 2, or E)</i></li>
               <li><code>Unit Type</code> <i>(private or fire department)</i></li>
@@ -85,7 +85,7 @@
         </ul>
         </p>
 
-        <p class="dark-gray-text">
+        <p class="primary-text">
         Some of the temporal features above were decomposed into sine and
         cosine components, to account for their circularity (e.g., 23:00 is
         closer to midnight than to 21:00, but Python would have no way of
@@ -93,7 +93,7 @@
         is closer to 21 than it is to 0.)
         </p>
 
-        <p class="dark-gray-text">
+        <p class="primary-text">
         The data was split into 75% training data and 25% testing data, and a
         grid search was conducted over a set of 176 combinations of random
         forest regression model parameters (11 <code>n_estimators</code> values
@@ -104,7 +104,7 @@
         </code>.
         </p>
 
-        <p class="dark-gray-text">
+        <p class="primary-text">
         The graph below shows the importance of the features in the best-fitting
          model. Input features related to the same human-interpretable parameter
          were combined (e.g., <code>Hour_cos</code> and <code>Hour_sin</code>).
@@ -115,7 +115,7 @@
           style="width:95%; margin-bottom:30px;";
         ></img>
 
-        <p class="dark-gray-text">
+        <p class="primary-text">
         The uncertainty on the predicted ambulance arrival time is
         approximately 3.5 minutes, which is an improvement of 24% over a naive
         guess. Additional features, such as live travel time to the incident,
@@ -123,7 +123,7 @@
         homelessness data would likely improve the accuracy of the prediction.
         </p>
 
-        <p class="dark-gray-text">
+        <p class="primary-text">
         To access the code, visit the project's
         <a href="https://github.com/gogrean/SFFD-Medical-Incident-Calls">
           GitHub repo.

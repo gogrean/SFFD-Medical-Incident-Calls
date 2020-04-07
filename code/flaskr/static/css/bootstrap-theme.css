@@ -697,11 +697,11 @@ fieldset[disabled] .btn-danger.active {
   margin-top: 30px;
 }
 
-.dark-gray-text {
+.primary-text {
   color: #676767;
 }
 
-.very-dark-gray-text {
+.dropdown-label {
   color: #404040;
 }
 
