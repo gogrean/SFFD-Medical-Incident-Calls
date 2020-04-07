@@ -145,7 +145,7 @@ if __name__ == "__main__":
 
     @contextmanager
     def session_scope():
-        """Provide a transational scope around creating a postgis extension
+        """Provide a transactional scope around creating a postgis extension
         when the database is being created."""
         session = Session(bind=db.engine.connect())
 
