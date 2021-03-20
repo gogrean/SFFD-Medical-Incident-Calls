@@ -3,7 +3,7 @@ geopy==1.21.0
 joblib==0.14.1
 pandas==1.0.1
 Shapely==1.7.0
-Jinja2==2.11.1
+Jinja2==2.11.3
 Flask_DebugToolbar==0.10.1
 GeoAlchemy2==0.6.3
 holidays==0.10.1
