@@ -1,6 +1,6 @@
 geocoder==1.38.1
 geopy==1.21.0
-joblib==0.14.1
+joblib==1.2.0
 pandas==1.0.1
 Shapely==1.7.0
 Jinja2==2.11.1
